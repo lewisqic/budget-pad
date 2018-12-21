@@ -17,7 +17,7 @@
         <div class="container-fluid container-layout">
             <nav class="navbar navbar-expand-lg navbar-dark">
 
-                <a class="navbar-brand" href="{{ url('admin') }}"><i class="fab fa-jedi-order"></i> BudgetPad</a>
+                <a class="navbar-brand" href="{{ url('admin') }}"><i class="fas fa-coins"></i> BudgetPad</a>
 
                 <div class="collapse navbar-collapse">
                     <form action="{{ url('admin/search') }}" method="get" class="form-inline ml-7" id="global_search_form">
