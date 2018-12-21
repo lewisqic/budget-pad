@@ -1,0 +1,85 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Raleway:100,100i,400,400i,700,700i');
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Animate.css
+$use-fade: true;
+@import '~animate-sass/animate';
+
+// Font Awesome
+$fa-font-path: '../fonts';
+@import 'vendor/font-awesome/scss/fontawesome';
+@import 'vendor/font-awesome/scss/fa-brands';
+@import 'vendor/font-awesome/scss/fa-light';
+@import 'vendor/font-awesome/scss/fa-regular';
+@import 'vendor/font-awesome/scss/fa-solid';
+
+// Awesome Bootstrap Checkbox
+@import "vendor/awesome-bootstrap-checkbox";
+
+/*************************************************
+UTILITIES
+*************************************************/
+
+.show {
+    display: block;
+}
+.show-inline {
+    display: inline;
+}
+.show-inline-block {
+    display: inline-block;
+}
+.hide {
+    display: none;
+}
+@for $i from 10 through 50 {
+    .font-#{$i} {
+        font-size: #{$i}px;
+    }
+}
+@each $name, $value in $custom-colors {
+    .text-#{$name} {
+        color: $value;
+    }
+}
+@each $name, $value in $custom-colors {
+    .bg-#{$name} {
+        background: $value;
+    }
+}
+
+
+/*************************************************
+GLOBAL STYLES
+*************************************************/
+
+body {
+    color: var(--dark);
+}
+input[type="text"], textarea {
+    outline: none;
+    box-shadow:none !important;
+}
+.abc-checkbox input[type="checkbox"]:focus + label::before,
+.abc-radio input[type="radio"]:focus + label::before {
+    outline: none;
+}
+
+
+/*************************************************
+VENDOR OVERRIDES
+*************************************************/
+
+// animate.css override
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 10%, 0);
+    }
+}

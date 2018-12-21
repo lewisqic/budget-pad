@@ -1,0 +1,40 @@
+.auth {
+    height: 100%;
+    .bg-wrapper {
+        background: url('/images/backgrounds/auth/auth-bg.jpg') 0 0 no-repeat;
+        background-size: cover;
+        height: 100vh;
+        .auth-content {
+            padding: 125px 0 0 40px;
+            color: #fff;
+            .version-wrapper {
+                margin-bottom: 60px;
+                .square {
+                    background: $primary;
+                    display: inline-block;
+                    width: 120px;
+                    height: 120px;
+                    text-align: center;
+                    font-size: 60px;
+                    line-height: 120px;
+                }
+                .version {
+                    font-size: 30px;
+                    font-weight: 100;
+                    display: inline-block;
+                    line-height: 22px;
+                    margin-left: 5px;
+                    vertical-align: bottom;
+                }
+            }
+        }
+    }
+    .form-wrapper {
+        height: 100vh;
+        background: #fff;
+        .form-inner {
+            padding: 40px;
+            padding-top: 120px;
+        }
+    }
+}
