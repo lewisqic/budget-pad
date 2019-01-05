@@ -3,8 +3,6 @@
 namespace App\Services;
 
 use App\Models\CompanyPaymentMethod;
-use net\authorize\api\contract\v1 as AnetAPI;
-use net\authorize\api\controller as AnetController;
 
 class CompanyPaymentMethodService extends BaseService
 {
@@ -78,99 +76,28 @@ class CompanyPaymentMethodService extends BaseService
             }
         }
 
-        // create new authorize.net payment profile if necessary
-        if ( !empty($data['dataValue']) ) {
-            // create payment profile
-            $payment_profile_id = $this->createAuthorizenetPaymentProfile($company->customer_profile_id, $data);
-            // get details on the payment profile
-            $payment_profile = $this->getAuthorizenetPaymentProfile($company->customer_profile_id, $payment_profile_id);
-            // create company payment method
-            CompanyPaymentMethodService::create([
-                'company_id'          => $company->id,
-                'payment_profile_id'  => $payment_profile_id,
-                'cc_type'             => $payment_profile['cc_type'],
-                'cc_last4'            => $payment_profile['cc_last4'],
-                'cc_expiration_month' => $data['cc_expiration_month'],
-                'cc_expiration_year'  => $data['cc_expiration_year'],
+        // create new stripe payment source if necessary
+        if ( !empty($data['token']) ) {
+
+            $stripe_customer = \Stripe\Customer::retrieve($company->stripe_customer_id);
+            $source = $stripe_customer->sources->create([
+                'source' => $data['token']
             ]);
+
+            // create company payment method
+            $this->create([
+                'company_id'          => $company->id,
+                'stripe_source_id'    => $source->id,
+                'cc_type'             => $source->brand,
+                'cc_last4'            => $source->last4,
+                'cc_expiration_month' => $source->exp_month,
+                'cc_expiration_year'  => $source->exp_year
+            ]);
+
         }
         
     }
 
-
-    /**
-     * Get the details on an authorize.net payment profile
-     *
-     * @param $customer_profile_id
-     * @param $payment_profile_id
-     *
-     * @return array
-     * @throws \AppExcp
-     */
-    public function getAuthorizenetPaymentProfile($customer_profile_id, $payment_profile_id)
-    {
-        $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
-        $merchantAuthentication->setName(env('AUTHORIZENET_MERCHANT_LOGIN_ID'));
-        $merchantAuthentication->setTransactionKey(env('AUTHORIZENET_MERCHANT_TRANSACTION_KEY'));
-        $request = new AnetAPI\GetCustomerPaymentProfileRequest();
-        $request->setMerchantAuthentication($merchantAuthentication);
-        $request->setRefId('ref' . time());
-        $request->setCustomerProfileId($customer_profile_id);
-        $request->setCustomerPaymentProfileId($payment_profile_id);
-        $controller = new AnetController\GetCustomerPaymentProfileController($request);
-        $response = $controller->executeWithApiResponse(env('APP_ENV') == 'production' ? \net\authorize\api\constants\ANetEnvironment::PRODUCTION : \net\authorize\api\constants\ANetEnvironment::SANDBOX);
-        if ( $response != null && $response->getMessages()->getResultCode() == "Ok" ) {
-            $card = $response->getPaymentProfile()->getPayment()->getCreditCard();
-            return [
-                'payment_profile_id' => $payment_profile_id,
-                'cc_type' => $card->getCardType(),
-                'cc_last4' => substr($card->getCardNumber(), -4, 4),
-            ];
-        } else {
-            $errorMessages = $response->getMessages()->getMessage();
-            fail($errorMessages[0]->getText());
-        }
-    }
-
-    /**
-     * Create a new payment profile for a customer
-     *
-     * @param $customer_profile_id
-     * @param $data
-     *
-     * @return mixed
-     * @throws \AppExcp
-     */
-    public function createAuthorizenetPaymentProfile($customer_profile_id, $data)
-    {
-        $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
-        $merchantAuthentication->setName(env('AUTHORIZENET_MERCHANT_LOGIN_ID'));
-        $merchantAuthentication->setTransactionKey(env('AUTHORIZENET_MERCHANT_TRANSACTION_KEY'));
-        // create opaque payment data
-        $op = new AnetAPI\OpaqueDataType();
-        $op->setDataDescriptor($data['dataDescriptor']);
-        $op->setDataValue($data['dataValue']);
-        $paymentOne = new AnetAPI\PaymentType();
-        $paymentOne->setOpaqueData($op);
-        $paymentprofile = new AnetAPI\CustomerPaymentProfileType();
-        $paymentprofile->setCustomerType('individual');
-        $paymentprofile->setPayment($paymentOne);
-        // Assemble the complete transaction request
-        $paymentprofilerequest = new AnetAPI\CreateCustomerPaymentProfileRequest();
-        $paymentprofilerequest->setMerchantAuthentication($merchantAuthentication);
-        $paymentprofilerequest->setCustomerProfileId($customer_profile_id);
-        $paymentprofilerequest->setPaymentProfile($paymentprofile);
-        // Create the controller and get the response
-        $controller = new AnetController\CreateCustomerPaymentProfileController($paymentprofilerequest);
-        $response = $controller->executeWithApiResponse(env('APP_ENV') == 'production' ? \net\authorize\api\constants\ANetEnvironment::PRODUCTION : \net\authorize\api\constants\ANetEnvironment::SANDBOX);
-        if ( $response != null && $response->getMessages()->getResultCode() == "Ok" ) {
-            return $response->getCustomerPaymentProfileId();
-        } else {
-            $errorMessages = $response->getMessages()->getMessage();
-            fail($errorMessages[0]->getText());
-        }
-
-    }
 
 
 }

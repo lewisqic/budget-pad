@@ -20,7 +20,7 @@ class CompanyPayment extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'company_id', 'company_subscription_id', 'company_payment_method_id', 'transaction_id', 'refund_id', 'amount', 'currency', 'notes', 'status', 'refunded_at'
+        'company_id', 'company_subscription_id', 'company_payment_method_id', 'stripe_charge_id', 'stripe_refund_id', 'amount', 'currency', 'notes', 'status', 'refunded_at'
     ];
 
     /**

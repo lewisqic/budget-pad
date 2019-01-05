@@ -15,11 +15,10 @@
 <div class="content card">
     <div class="card-body">
 
-        <form action="{{ url('admin/members' . (isset($user) ? '/' . $user->id : '')) }}" method="post" class="validate tabs labels-right authorizenet-payment" id="create_edit_member_form">
+        <form action="{{ url('admin/members' . (isset($user) ? '/' . $user->id : '')) }}" method="post" class="validate tabs labels-right stripe-payment" id="create_edit_member_form">
             <input type="hidden" name="user[ignore_permissions]" value="1">
             <input type="hidden" name="user[id]" value="{{ $user->id ?? '' }}">
-            <input type="hidden" name="payment_methods[dataDescriptor]" id="dataDescriptor" value="">
-            <input type="hidden" name="payment_methods[dataValue]" id="dataValue" value="">
+            <input type="hidden" name="payment_methods[token]" id="stripe_token" value="">
             {!! Html::hiddenInput(['method' => isset($user) ? 'put' : 'post']) !!}
 
             <ul class="nav nav-tabs page-tabs" role="tablist">
@@ -32,7 +31,7 @@
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#subscription" role="tab">Subscription</a>
                 </li>
-                @if ( isset($user) && !empty($company->customer_profile_id) )
+                @if ( isset($user) && !empty($company->stripe_customer_id) )
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#payment_methods" role="tab">Payment Methods</a>
                 </li>
@@ -194,7 +193,7 @@
                             </div>
                         </div>
 
-                        @if ( !isset($subscription) || empty($company->customer_profile_id) )
+                        @if ( !isset($subscription) || empty($company->stripe_customer_id) )
                             @include('partials.admin.payment-fields')
                         @endif
 
@@ -254,11 +253,11 @@
 @push('scripts')
 
     @if ( !\Request::ajax() )
-        {!! Js::authorizeNetConfig() !!}
-        <script type="text/javascript" src="{{ env('APP_ENV') == 'production' ? 'https://js.authorize.net/v1/Accept.js' : 'https://jstest.authorize.net/v1/Accept.js' }}" charset="utf-8"></script>
+        {!! Js::stripeConfig() !!}
+        <script src="https://js.stripe.com/v3/"></script>
     @endif
 
-    <script src="{{ url('assets/js/modules/authorizenet-payment.js') }}"></script>
+    <script src="{{ url('assets/js/modules/stripe-payment.js') }}"></script>
     <script type="text/javascript">
 
         $('select[name="user[company_id]"]').on('change', function() {

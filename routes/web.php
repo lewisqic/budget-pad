@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * Public site routes
+ */
+Route::group(['middleware' => ['guest'], 'namespace' => 'Index'], function () {
+    Route::get('/', ['uses' => 'IndexIndexController@showHome']);
+    Route::get('privacy-policy', ['uses' => 'IndexIndexController@showPrivacyPolicy']);
+    Route::get('terms-service', ['uses' => 'IndexIndexController@showTermsService']);
+    Route::get('refund-policy', ['uses' => 'IndexIndexController@showRefundPolicy']);
+    Route::get('signup/{unique_id?}', ['uses' => 'IndexIndexController@showSignUp']);
+    Route::post('signup', ['uses' => 'IndexIndexController@handleSignUp']);
+});
+
 
 /**
  * Auth route group
@@ -95,9 +107,4 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth:account'], 'namespac
     Route::get('settings', ['uses' => 'AccountSettingController@index'])->name('account.settings.index');
     Route::post('settings', ['uses' => 'AccountSettingController@update'])->name('account.settings.update');
 
-});
-
-
-Route::group(['middleware' => ['guest'], 'namespace' => 'Index'], function () {
-    Route::get('/', function() { return redirect('auth/login'); });
 });

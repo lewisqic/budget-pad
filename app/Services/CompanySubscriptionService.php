@@ -50,6 +50,14 @@ class CompanySubscriptionService extends BaseService
     public function update($data)
     {
 
+        if ( $this->subscription->status != 'Active' && $data['status'] == 'Active' ) {
+            $data['canceled_at'] = null;
+            $data['status_notes'] = null;
+        } elseif ( $this->subscription->status != 'Canceled' && $data['status'] == 'Canceled' ) {
+            $data['canceled_at'] = \Carbon::now();
+            $data['status_notes'] = 'Canceled by administrator';
+        }
+
         // update subscription
         $this->subscription->fill($data)->save();
 
@@ -107,7 +115,7 @@ class CompanySubscriptionService extends BaseService
 
                 // get default payment method
                 $company = $subscription->company;
-                if ( empty($company->customer_profile_id) ) {
+                if ( empty($company->stripe_customer_id) ) {
                     continue;
                 }
                 $payment_method = $company->paymentMethods->first();

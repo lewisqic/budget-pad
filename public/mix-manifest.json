@@ -6,6 +6,6 @@
     "/js/vendor.js": "/js/vendor.js",
     "/assets/js/modules/adminly.js": "/assets/js/modules/adminly.js",
     "/assets/js/modules/auth.js": "/assets/js/modules/auth.js",
-    "/assets/js/modules/authorizenet-payment.js": "/assets/js/modules/authorizenet-payment.js",
-    "/assets/js/modules/permissions.js": "/assets/js/modules/permissions.js"
+    "/assets/js/modules/permissions.js": "/assets/js/modules/permissions.js",
+    "/assets/js/modules/stripe-payment.js": "/assets/js/modules/stripe-payment.js"
 }

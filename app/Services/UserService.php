@@ -132,6 +132,8 @@ class UserService extends BaseService
                 'id' => $user->id,
                 'class' => !is_null($user->deleted_at) ? 'text-danger' : null,
                 'company' => $user->company->name ?? '',
+                'status' => !empty($user->company->subscription->status) ? $user->company->subscription->status : '',
+                'amount' => !empty($user->company->subscription->amount) ? \Format::currency($user->company->subscription->amount) . '<small>/' . $user->company->subscription->term . '</small>' : 'FREE',
                 'name' => $user->name,
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,

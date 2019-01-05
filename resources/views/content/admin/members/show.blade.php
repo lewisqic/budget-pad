@@ -108,11 +108,11 @@
                     </div>
                 </div>
 
-                @if ( $company->customer_profile_id )
+                @if ( $company->stripe_customer_id )
                 <div class="form-group row">
-                    <label class="col-form-label col-sm-2">Authorize.Net Customer ID:</label>
+                    <label class="col-form-label col-sm-2">Stripe Customer ID:</label>
                     <div class="col-sm-10 form-control-static">
-                        {{ $company->customer_profile_id }}
+                        {{ $company->stripe_customer_id }}
                     </div>
                 </div>
                 @endif
@@ -191,7 +191,7 @@
 
                     <table class="table table-striped">
                         <thead>
-                            <th>Transaction ID</th>
+                            <th>Charge ID</th>
                             <th>Amount</th>
                             <th>Card</th>
                             <th>Notes</th>
@@ -202,7 +202,7 @@
                         @foreach ( $payments as $payment )
 
                             <tr>
-                                <td>{{ $payment->transaction_id }}</td>
+                                <td>{{ $payment->stripe_charge_id }}</td>
                                 <td>{{ Format::currency($payment->amount) }}</td>
                                 <td>{!! Html::ccIcon($payment->paymentMethod->cc_type) !!} {{ $payment->paymentMethod->cc_last4 }}</td>
                                 <td>{{ $payment->notes }}</td>
@@ -239,6 +239,6 @@
 @endsection
 
 @push('scripts')
-    {!! Js::authorizeNetConfig() !!}
-    <script type="text/javascript" src="{{ env('APP_ENV') == 'production' ? 'https://js.authorize.net/v1/Accept.js' : 'https://jstest.authorize.net/v1/Accept.js' }}" charset="utf-8"></script>
+    {!! Js::stripeConfig() !!}
+    <script src="https://js.stripe.com/v3/"></script>
 @endpush

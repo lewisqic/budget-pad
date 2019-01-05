@@ -23,9 +23,10 @@ class Js {
      * return javascript info for stripe
      * @return html
      */
-    public static function authorizeNetConfig()
+    public static function stripeConfig()
     {
-        return '<script>const authorizenet_config = {login_id: "' . env('AUTHORIZENET_MERCHANT_LOGIN_ID') . '", client_key: "' . env('AUTHORIZENET_MERCHANT_CLIENT_KEY') . '"};</script>';
+
+        return '<script>const stripe_config = {publishable_key: "' . (\Config::get('settings.stripe_publishable_key') ?: env('STRIPE_PUBLISHABLE_KEY')) . '"};</script>';
     }
 
 

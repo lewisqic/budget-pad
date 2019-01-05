@@ -3,7 +3,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /******************************************************
- * Signup class used on the public sign up page
+ * Stripe payment form
  ******************************************************/
 var StripePayment = function () {
 
@@ -28,40 +28,10 @@ var StripePayment = function () {
     _createClass(StripePayment, [{
         key: 'init',
         value: function init() {
+            // setup stripe
+            this.setupStripe();
             // bind events
             this.bindEvents();
-            // setup stripe
-            this.setupElement();
-        }
-
-        /**
-         * bind all necessary events
-         */
-
-    }, {
-        key: 'bindEvents',
-        value: function bindEvents() {
-            var self = this;
-            var formId = $('form.stripe-payment:first').attr('id');
-            $(window).on(formId + '.validationSuccess', function (e, obj) {
-                $('.error-wrapper').hide();
-                var $token = $('input[name="token"]');
-                if ($token.val() === '') {
-                    obj.halt = true;
-                    obj.button.button('loading');
-                    self.stripe.createToken(self.card).then(function (result) {
-                        if (result.error) {
-                            self.setPaymentError(result.error.message);
-                        } else {
-                            self.setPaymentError();
-                            $token.val(result.token.id);
-                            $('#' + formId).submit();
-                        }
-                    });
-                } else {
-                    obj.halt = false;
-                }
-            });
         }
 
         /**
@@ -69,8 +39,8 @@ var StripePayment = function () {
          */
 
     }, {
-        key: 'setupElement',
-        value: function setupElement() {
+        key: 'setupStripe',
+        value: function setupStripe() {
 
             var self = this;
             var elements = self.stripe.elements();
@@ -93,7 +63,7 @@ var StripePayment = function () {
                 // Add an instance of the card Element into the `card-element` <div>
                 self.card.mount('#card_element');
                 self.card.on('ready', function () {
-                    $('button.submit').prop('disabled', false);
+                    $('#card_element').closest('form').find('button.submit').prop('disabled', false);
                 });
 
                 // setup error listening on card element
@@ -108,13 +78,54 @@ var StripePayment = function () {
         }
 
         /**
+         * bind all necessary events
+         */
+
+    }, {
+        key: 'bindEvents',
+        value: function bindEvents() {
+            var self = this;
+            var formId = $('form.stripe-payment:first').attr('id');
+            $(window).on(formId + '.validationSuccess', function (e, obj) {
+                $('.error-wrapper').hide();
+                if ($('#stripe_token').val() === '' && $('#card_element').is(':visible')) {
+                    obj.halt = true;
+                    obj.button.button('loading');
+                    self.getToken();
+                } else {
+                    obj.halt = false;
+                }
+            });
+        }
+
+        /**
+         * get card token from stripe
+         */
+
+    }, {
+        key: 'getToken',
+        value: function getToken() {
+            var self = this;
+            self.stripe.createToken(self.card).then(function (result) {
+                if (result.error) {
+                    self.setPaymentError(result.error.message);
+                } else {
+                    self.setPaymentError();
+                    $('#stripe_token').val(result.token.id);
+                    $('form.stripe-payment').submit();
+                }
+            });
+        }
+
+        /**
          * set our error message
          */
 
     }, {
         key: 'setPaymentError',
         value: function setPaymentError(message) {
-            $('input[name="token"]').val('');
+            $('#dataValue').val('');
+            $('#dataDescriptor').val('');
             $('.error-message').html(message);
             if (message === undefined) {
                 $('.error-wrapper').hide();

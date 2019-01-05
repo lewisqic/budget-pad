@@ -12,8 +12,6 @@ use Facades\App\Services\CompanyPaymentMethodService;
 use Facades\App\Services\CompanyPaymentService;
 use App\Http\Controllers\Controller;
 
-use net\authorize\api\contract\v1 as AnetAPI;
-
 
 class AdminMemberController extends Controller
 {
@@ -153,7 +151,7 @@ class AdminMemberController extends Controller
         // update subscription
         $subscription = CompanySubscriptionService::load($user->company->subscription->id)->update($subscription_data);
         // update payment methods
-        if ( !empty($company_old->customer_profile_id) ) {
+        if ( !empty($company_old->stripe_customer_id) ) {
             $payment_methods = CompanyPaymentMethodService::updateAll($company, $payment_methods_data);
         }
 
@@ -192,7 +190,7 @@ class AdminMemberController extends Controller
      */
     public function refundPayment()
     {
-        $result = CompanyPaymentService::refundPayment(\Request::input('id'));
+        $result = CompanyPaymentService::refundCharge(\Request::input('id'));
         \Msg::success('Payment has been <strong>refunded</strong>');
         return redir('admin/members/' . \Request::input('user_id') . '#tab=show_payment_history');
     }

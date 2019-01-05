@@ -3,7 +3,7 @@ let fs = require('fs');
 let argv = require('yargs').argv;
 let prod = mix.inProduction();
 mix.browserSync({
-    proxy: 'laravel-starter.lh',
+    proxy: 'budget-pad.lh',
     notify: {
         styles: {
             top: 'auto',

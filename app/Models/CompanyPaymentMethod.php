@@ -20,7 +20,7 @@ class CompanyPaymentMethod extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'company_id', 'payment_profile_id', 'cc_type', 'cc_last4', 'cc_expiration_month', 'cc_expiration_year', 'is_default'
+        'company_id', 'stripe_source_id', 'cc_type', 'cc_last4', 'cc_expiration_month', 'cc_expiration_year', 'is_default'
     ];
 
     /**
@@ -29,8 +29,8 @@ class CompanyPaymentMethod extends BaseModel
      * @var array
      */
     protected $rules = [
-        'company_id'         => 'required',
-        'payment_profile_id' => 'required'
+        'company_id'       => 'required',
+        'stripe_source_id' => 'required'
     ];
 
     /**

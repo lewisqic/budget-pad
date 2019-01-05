@@ -20,7 +20,7 @@ class Company extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'customer_profile_id', 'name', 'email', 'phone', 'address', 'website', 'logo_image', 'currency', 'language', 'mail', 'payment'
+        'stripe_customer_id', 'name', 'email', 'phone', 'address', 'website', 'logo_image', 'currency', 'language', 'mail', 'payment'
     ];
 
     /**

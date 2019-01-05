@@ -1,22 +1,13 @@
 <?php
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Account;
 
 use App\Models\User;
 use App\Models\CompanySubscription;
 use App\Http\Controllers\Controller;
 
-class AdminIndexController extends Controller
+class AccountIndexController extends Controller
 {
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-
-    }
 
     /**
      * Show our dashboard page
@@ -25,30 +16,7 @@ class AdminIndexController extends Controller
      */
     public function showDashboard()
     {
-        $all = CompanySubscription::all();
-        $days = [];
-        foreach ( $all as $sub ) {
-            $end = $sub->canceled_at ? $sub->canceled_at : \Carbon::now();
-            $days[] = $sub->created_at->diffInDays($end);
-        }
-        $avg = count($days) ? round(array_sum($days) / count($days)) : 0;
-
-        $subscriptions = CompanySubscription::select(\DB::raw('count(*) as count, status'))->groupBy('status')->get();
-        $subscribers = [
-            'Active' => 0,
-            'Canceled' => 0,
-            'Pending Cancelation' => 0,
-        ];
-        foreach ( $subscriptions as $group ) {
-            if ( isset($subscribers[$group['status']]) ) {
-                $subscribers[$group['status']] = $group['count'];
-            }
-        }
-        $data = [
-            'subscribers' => $subscribers,
-            'average_days' => $avg,
-        ];
-        return view('content.admin.index.dashboard', $data);
+        return view('content.account.index.dashboard');
     }
 
 
@@ -110,7 +78,7 @@ class AdminIndexController extends Controller
     }
 
     /**
-     * Delete favorite page 
+     * Delete favorite page
      *
      * @return \Illuminate\Http\JsonResponse
      */

@@ -28,7 +28,9 @@
                 <th data-name="name_email">Name</th>
                 <th data-name="company">Company</th>
                 <th data-name="company_owner">Owner</th>
-                <th data-name="created_at" data-o-sort="true" data-order="primary-desc">Date Created</th>
+                <th data-name="status">Sub. Status</th>
+                <th data-name="amount">Sub. Amount</th>
+                <th data-name="created_at" data-o-sort="true" data-order="primary-desc">Date Joined</th>
                 {!! Html::dataTablesActionColumn() !!}
             </tr>
             </thead>
@@ -41,6 +43,6 @@
 @endsection
 
 @push('scripts')
-    {!! Js::authorizeNetConfig() !!}
-    <script type="text/javascript" src="{{ env('APP_ENV') == 'production' ? 'https://js.authorize.net/v1/Accept.js' : 'https://jstest.authorize.net/v1/Accept.js' }}" charset="utf-8"></script>
+    {!! Js::stripeConfig() !!}
+    <script src="https://js.stripe.com/v3/"></script>
 @endpush

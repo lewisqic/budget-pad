@@ -66,7 +66,7 @@ class ActivityLogService extends BaseService
                 break;
             case 'App\Models\CompanyPayment':
                 $company = $subject->company->name ?: $company_empty;
-                $name = $company . ', #' . $subject->transaction_id;
+                $name = $company . ', #' . $subject->stripe_charge_id;
                 break;
             case 'App\Models\User':
             case 'App\Models\Role':
