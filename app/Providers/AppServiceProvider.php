@@ -13,8 +13,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // set stripe stuff
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
     }
 
     /**

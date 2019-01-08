@@ -83,7 +83,7 @@
 
 @endif
 
-<div class="footer">
+<div class="footer mt-7">
 
     <div class="container">
         <div class="row">

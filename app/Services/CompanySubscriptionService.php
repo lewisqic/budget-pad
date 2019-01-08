@@ -106,7 +106,10 @@ class CompanySubscriptionService extends BaseService
             }])->whereNotNull('next_billing_at')
             ->whereNotNull('term')
             ->where('next_billing_at', '<=', \Carbon::now()->format('Y-m-d'))
-            ->where('status', 'Active')
+            ->where(function($query) {
+                $query->where('status', 'Active')
+                      ->orWhere('status', 'Trial');
+            })
             ->take(10)
             ->get();
 

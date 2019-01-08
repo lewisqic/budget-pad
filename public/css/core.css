@@ -20111,6 +20111,7 @@ ADMINLY STYLES
 *************************************************/
 
 .adminly {
+  background: #f5f6f7;
   overflow-x: hidden;
   /**
     GLOBAL
@@ -21244,6 +21245,7 @@ GLOBAL STYLES
 
 body {
   color: var(--dark);
+  background: #fff;
 }
 
 h1 small,

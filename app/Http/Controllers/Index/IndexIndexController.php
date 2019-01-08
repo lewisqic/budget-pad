@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Index;
 
+use App\Models\User;
 use App\Models\Company;
+use App\Models\Role;
 use Facades\App\Services\CompanyService;
 use Facades\App\Services\CompanySubscriptionService;
 use Facades\App\Services\UserService;
@@ -61,9 +63,9 @@ class IndexIndexController extends Controller
      */
     public function showSignUp($id = null)
     {
-        $page = !is_null($id) ? SignupPage::where('unique_id', $id)->first() : SignupPage::where('is_default', true)->first();
         $data = [
-            'page' => $page
+            'amount' => \Config::get('settings.subscription_amount'),
+            'trial' => \Config::get('settings.trial_days'),
         ];
         return view('content.index.index.signup', $data);
     }
@@ -82,52 +84,42 @@ class IndexIndexController extends Controller
 
         $result = \DB::transaction(function() use($data) {
 
-            $data['type'] = Member::USER_TYPE_ID;
-            // honeypot checking for valid submission
-            $this->companyService->honeypotCheck($data);
-
-            // get our signup page
-            $page = SignupPage::where('id', $data['signup_page'])->first();
-            if ( is_null($page) ) {
-                throw new \AppExcp('We were unable to complete your signup, please try again.');
-            }
-
             // create the company
-            list($company, $role) = $this->companyService->create($data);
+            $company = CompanyService::create($data, $data);
 
-            // create the user
-            $data['company_id'] = $company->id;
-            $data['roles'] = [$role->id];
-            $data['is_owner'] = true;
-            $user = $this->userService->create($data);
-
-            // update subscription for paying customer
-            $subscription_result = $this->companySubscriptionService->upgrade([
-                'company' => $company,
-                'user' => $user,
-                'amount' => $page->amount,
-                'term' => $page->term,
-                'token' => $data['token']
+            // create the subscription
+            $subscription = CompanySubscriptionService::create([
+                'company_id' => $company->id,
+                'amount' => \Config::get('settings.subscription_amount'),
+                'term' => 'month',
+                'status' => 'Trial',
+                'next_billing_at' => \Carbon::now()->addDays(\Config::get('settings.trial_days'))
             ]);
 
+            // create the user
+            $data['type'] = User::MEMBER_ID;
+            $data['company_id'] = $company->id;
+            $data['company_owner'] = true;
+            $user = UserService::create($data);
+            $user->assignRole(Role::where('company_id', $company->id)->first());
+
             // send confirmation email
-            $mail_data = [
-                'amount' => \Format::currency($page->amount),
-                'term' => $page->term,
-                'next_billing_date' => $page->term == 'year' ? \Carbon::now()->addYear()->toFormattedDateString() : \Carbon::now()->addMonth()->toFormattedDateString()
+            /*$mail_data = [
+                'amount' => \Format::currency(\Config::get('settings.subscription_amount')),
+                'term' => 'month',
+                'next_billing_date' => \Carbon::now()->addDays(\Config::get('settings.trial_days'))->toFormattedDateString()
             ];
-            \Mail::to($user->email)->send(new SignUpConfirmation($mail_data));
+            \Mail::to($user->email)->send(new SignUpConfirmation($mail_data));*/
 
             // find the user and log them in
-            $auth_user = \Auth::findById($user->id);
-            \Auth::login($auth_user, true);
+            \Auth::login($user, true);
             return [
                 'route' => url('account')
             ];
 
         });
 
-        \Msg::success('Thank you! Your payment has been processed and your subscription is now active. Enjoy!');
+        \Msg::success('Thank you! Your subscription is now active.');
         return response()->json(['success' => true, 'route' => $result['route']]);
     }
 
