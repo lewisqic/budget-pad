@@ -28,7 +28,7 @@
                     <li class="nav-item mr-3">
                         <a href="{{ url('signup') }}" class="nav-link">Pricing/Signup</a>
                     </li>
-                    @if ( $user = \Auth::check() )
+                    @if ( $user = \Auth::check() && !empty($user) )
                         <li class="nav-item dropdown ml-3">
                             <a href="#" class="nav-link dropdown-toggle" id="user_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Welcome, {{ $user->first_name }}

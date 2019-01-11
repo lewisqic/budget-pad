@@ -94,35 +94,20 @@
                     <li class="{{ \Request::is('account') ? 'active' : '' }}"><a href="{{ url('account') }}">Dashboard</a></li>
 
 
-                    {{-- Members --}}
-                    @if ( has_permission('account.members.index') )
-                        <li class="{{ \Request::is('account/members*') ? 'active' : '' }}"><a href="{{ url('account/members') }}">Members</a></li>
-                    @endif
-
                     {{-- System --}}
-                    @php $show_system = has_permission('account.administrators.index') || has_permission('account.administrator-roles.index') || has_permission('account.settings.index') || has_permission('account.activity.index') ? true : false @endphp
-                    @if ( \Request::is('account/administrators*') || \Request::is('account/administrator-roles*') || \Request::is('account/settings*') || \Request::is('account/activity*') )
-                        @php $has_submenu = $show_system ? true : $has_submenu; $system_active = 'active'; @endphp
+                    @if ( \Request::is('account/billing*') || \Request::is('account/settings*') )
+                        @php $has_submenu = true; $system_active = 'active'; @endphp
                     @endif
-                    @if ( $show_system )
-                        <li class="has-submenu {{ $system_active ?? '' }}">
-                            <a href="#">System</a>
-                            <ul class="submenu dropdown-arrow animated fadeInUp">
-                                @if ( has_permission('account.administrators.index') )
-                                    <li class="{{ \Request::is('account/administrators*') ? 'active' : '' }}"><a href="{{ url('account/administrators') }}"><i class="fal fa-user-tie fa-fw"></i> Administrators</a></li>
-                                @endif
-                                @if ( has_permission('account.administrator-roles.index') )
-                                    <li class="{{ \Request::is('account/administrator-roles*') ? 'active' : '' }}"><a href="{{ url('account/administrator-roles') }}"><i class="fal fa-key fa-fw"></i> Roles/Permissions</a></li>
-                                @endif
-                                @if ( has_permission('account.settings.index') )
-                                    <li class="{{ \Request::is('account/settings*') ? 'active' : '' }}"><a href="{{ url('account/settings') }}"><i class="fal fa-cogs fa-fw"></i> Settings</a></li>
-                                @endif
-                                @if ( has_permission('account.activity.index') )
-                                    <li class="{{ \Request::is('account/activity*') ? 'active' : '' }}"><a href="{{ url('account/activity') }}"><i class="fal fa-file-alt fa-fw"></i> Activity Log</a></li>
-                                @endif
-                            </ul>
-                        </li>
-                    @endif
+                    <li class="has-submenu {{ $system_active ?? '' }}">
+                        <a href="#">System</a>
+                        <ul class="submenu dropdown-arrow animated fadeInUp">
+
+                            <li class="{{ \Request::is('account/billing*') ? 'active' : '' }}"><a href="{{ url('account/billing/subscription') }}"><i class="fal fa-user-tie fa-fw"></i> Billing & Subscription</a></li>
+
+                            <li class="{{ \Request::is('account/settings*') ? 'active' : '' }}"><a href="{{ url('account/settings') }}"><i class="fal fa-cogs fa-fw"></i> Settings</a></li>
+
+                        </ul>
+                    </li>
 
                 </ul>
             </div>

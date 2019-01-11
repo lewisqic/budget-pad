@@ -1,4 +1,4 @@
-@extends(\Auth::user() && \Auth::user()->type == 1 ? 'layouts.admin' : 'layouts.index')
+@extends(\Auth::user() && \Auth::user()->type == 1 ? 'layouts.admin' : (\Auth::user() && \Auth::user()->type == 2 ? 'layouts.account' : 'layouts.index'))
 
 @section('content')
 

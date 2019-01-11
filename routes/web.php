@@ -103,6 +103,20 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth:account'], 'namespac
     Route::patch('roles/{id}', ['uses' => 'AccountRoleController@restore'])->name('account.roles.restore');
     Route::resource('roles', 'AccountRoleController', ['as' => 'account']);
 
+    // billing
+    Route::group(['prefix' => 'billing'], function() {
+        Route::get('subscription', ['uses' => 'AccountBillingController@showSubscription']);
+        Route::get('payment-methods', ['uses' => 'AccountBillingController@showPaymentMethods']);
+        Route::post('payment-method', ['uses' => 'AccountBillingController@handleAddPaymentMethod']);
+        Route::put('payment-method/{id}', ['uses' => 'AccountBillingController@handleSetDefaultPaymentMethod']);
+        Route::delete('payment-method/{id}', ['uses' => 'AccountBillingController@handleDeletePaymentMethod']);
+        Route::get('history', ['uses' => 'AccountBillingController@showBillingHistory']);
+        Route::get('history/data', ['uses' => 'AccountBillingController@dataTables']);
+
+        Route::post('cancel-subscription', ['uses' => 'AccountBillingController@handleCancelSubscription']);
+        Route::post('resume-subscription', ['uses' => 'AccountBillingController@handleResumeSubscription']);
+    });
+
     // settings
     Route::get('settings', ['uses' => 'AccountSettingController@index'])->name('account.settings.index');
     Route::post('settings', ['uses' => 'AccountSettingController@update'])->name('account.settings.update');

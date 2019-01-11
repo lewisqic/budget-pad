@@ -85,6 +85,7 @@ class IndexIndexController extends Controller
         $result = \DB::transaction(function() use($data) {
 
             // create the company
+            $data['name'] = '';
             $company = CompanyService::create($data, $data);
 
             // create the subscription

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\CompanySubscription;
+use App\Models\CompanyPayment;
 use App\Http\Controllers\Controller;
 
 class AdminIndexController extends Controller
@@ -44,9 +45,26 @@ class AdminIndexController extends Controller
                 $subscribers[$group['status']] = $group['count'];
             }
         }
+
+
+        $active_revenue = [];
+        foreach ( $all as $sub ) {
+            if ( $sub->status == 'Active' ) {
+                $active_revenue[] = $sub->term == 'month' ? $sub->amount : $sub->amount / 12;
+            }
+        }
+        $payments = CompanyPayment::where('status', 'Complete')->whereBetween('created_at', [date('Y-01-01 00:00:00'), date('Y-m-d 23:59:59')])->get();
+        $monthly = round(array_sum($active_revenue) / count($active_revenue));
+        $revenue = [
+            'monthly' => $monthly,
+            'yearly' => $monthly * 12,
+            'year_to_date' => $payments->sum('amount'),
+        ];
+
         $data = [
             'subscribers' => $subscribers,
             'average_days' => $avg,
+            'revenue' => $revenue
         ];
         return view('content.admin.index.dashboard', $data);
     }
