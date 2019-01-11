@@ -26,8 +26,8 @@
             <thead>
             <tr>
                 <th data-name="name_email">Name</th>
-                <th data-name="company">Company</th>
-                <th data-name="company_owner">Owner</th>
+                {{--<th data-name="company">Company</th>
+                <th data-name="company_owner">Owner</th>--}}
                 <th data-name="status">Sub. Status</th>
                 <th data-name="amount">Sub. Amount</th>
                 <th data-name="created_at" data-o-sort="true" data-order="primary-desc">Date Joined</th>

@@ -28,9 +28,9 @@
             <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#show_details" role="tab">Member</a>
             </li>
-            <li class="nav-item">
+            {{--<li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#show_company" role="tab">Company</a>
-            </li>
+            </li>--}}
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#show_subscription" role="tab">Subscription</a>
             </li>
