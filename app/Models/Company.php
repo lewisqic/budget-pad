@@ -69,7 +69,7 @@ class Company extends BaseModel
     // company_payment_methods
     public function paymentMethods()
     {
-        return $this->hasMany('App\Models\CompanyPaymentMethod')->orderBy('is_default', 'desc');
+        return $this->hasMany('App\Models\CompanyPaymentMethod')->orderBy('created_at', 'asc');
     }
     // company_payments
     public function payments()

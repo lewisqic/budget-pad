@@ -94,6 +94,11 @@ h1 small, h2 small, h3 small, h4 small, h5 small {
     position: relative;
 }
 
+#card_element {
+    border-bottom: 1px solid #ced4da;
+    padding: 6px 2px;
+}
+
 table.table thead th {
     border-top: none;
     font-weight: 500;

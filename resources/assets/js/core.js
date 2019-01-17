@@ -561,7 +561,7 @@ class Core {
                     if ( obj.halt ) return false;
                     // send the notification
                     if ( data.message !== undefined && data.message !== '' ) {
-                        self.notify(data.status, data.message);
+                        self.notify(data.status ? data.status : 'success', data.message);
                     }
                     // reload datatables
                     self.reloadDataTables();

@@ -20,14 +20,7 @@
                 <a class="navbar-brand" href="{{ url('account') }}"><i class="fas fa-coins"></i> BudgetPad</a>
 
                 <div class="collapse navbar-collapse">
-                    <form action="{{ url('account/search') }}" method="get" class="form-inline ml-7" id="global_search_form">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <button class="btn" type="submit"><i class="fal fa-search fa-lg"></i></button>
-                            </div>
-                            <input type="text" name="keywords" class="form-control" placeholder='Type "/" to begin searching...'>
-                        </div>
-                    </form>
+
                     <ul class="navbar-nav ml-5 mr-auto">
                         <li class="nav-item dropdown dropdown-icon">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fas fa-heart-circle fa-lg"></i></a>
@@ -51,19 +44,22 @@
                             </div>
                         </li>--}}
                     </ul>
-                    <ul class="navbar-nav">
-                        {{--<li class="nav-item dropdown dropdown-icon mr-6">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><img src="{{ url('images/flags/english.png') }}" class="flag"></a>
-                            <div class="dropdown-menu dropdown-menu-right dropdown-arrow-right language animated fadeInUp">
-                                <div class="dropdown-header"><i class="fal fa-globe mr-1"></i> Language</div>
-                                <a href="#" class="dropdown-item"><img src="{{ url('images/flags/spanish.png') }}" class="flag"> Español</a>
-                                <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item"><img src="{{ url('images/flags/french.png') }}" class="flag"> Français</a>
-                                <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item"><img src="{{ url('images/flags/german.png') }}" class="flag"> Deutsche</a>
-
+                    <ul class="navbar-nav mr-5">
+                        <li class="nav-item dropdown dropdown-icon">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fas fa-question-circle fa-lg"></i></a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-arrow-right animated fadeInUp feedback">
+                                <div class="dropdown-header"><i class="fal fa-question mr-1"></i> Help / Feedback</div>
+                                <form action="{{ url('account/feedback') }}" method="post" class="validate" id="feedback_form">
+                                    {!! Html::hiddenInput(['method' => 'post', 'ajax' => true]) !!}
+                                    <textarea name="message" rows="4" class="form-control" placeholder="Enter your comments and/or feedback here..."></textarea>
+                                    <div class="text-center mt-3">
+                                        <button type="submit" class="btn btn-outline-success" data-loading-text="<i class='fa fa-circle-notch fa-spin fa-lg'></i>"><i class="fa fa-check"></i> Submit</button>
+                                    </div>
+                                </form>
                             </div>
-                        </li>--}}
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle avatar-wrapper" data-toggle="dropdown">
                                 <span class="name">Welcome, {{ $auth_user->first_name }}</span>
@@ -102,7 +98,7 @@
                         <a href="#">System</a>
                         <ul class="submenu dropdown-arrow animated fadeInUp">
 
-                            <li class="{{ \Request::is('account/billing*') ? 'active' : '' }}"><a href="{{ url('account/billing/subscription') }}"><i class="fal fa-user-tie fa-fw"></i> Billing & Subscription</a></li>
+                            <li class="{{ \Request::is('account/billing*') ? 'active' : '' }}"><a href="{{ url('account/billing/subscription') }}"><i class="fal fa-credit-card fa-fw"></i> Billing & Subscription</a></li>
 
                             <li class="{{ \Request::is('account/settings*') ? 'active' : '' }}"><a href="{{ url('account/settings') }}"><i class="fal fa-cogs fa-fw"></i> Settings</a></li>
 
@@ -217,6 +213,11 @@
 {!! Js::config(true) !!}
 <script src="{{ url('js/vendor.js') }}"></script>
 <script src="{{ url('js/core.js') }}"></script>
+<script>
+    $(window).on('feedback_form.success', function(e, obj) {
+        $('#feedback_form textarea').val('');
+    });
+</script>
 @stack('scripts')
 </body>
 </html>

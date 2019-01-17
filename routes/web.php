@@ -83,11 +83,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'permission'],
 /**
  * Account route group
  */
-Route::group(['prefix' => 'account', 'middleware' => ['auth:account'], 'namespace' => 'Account'], function() {
+Route::group(['prefix' => 'account', 'middleware' => ['auth:account', 'account'], 'namespace' => 'Account'], function() {
 
     // GET
     Route::get('/', ['uses' => 'AccountIndexController@showDashboard']);
     Route::post('save-configurator', 'AccountIndexController@saveConfigurator');
+    Route::post('save-favorite', 'AccountIndexController@saveFavorite');
+    Route::post('delete-favorite', 'AccountIndexController@deleteFavorite');
+    Route::post('feedback', 'AccountIndexController@sendFeedback');
 
     // profile
     Route::get('profile', ['uses' => 'AccountProfileController@index']);
@@ -108,11 +111,9 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth:account'], 'namespac
         Route::get('subscription', ['uses' => 'AccountBillingController@showSubscription']);
         Route::get('payment-methods', ['uses' => 'AccountBillingController@showPaymentMethods']);
         Route::post('payment-method', ['uses' => 'AccountBillingController@handleAddPaymentMethod']);
-        Route::put('payment-method/{id}', ['uses' => 'AccountBillingController@handleSetDefaultPaymentMethod']);
+        Route::post('payment-method-default', ['uses' => 'AccountBillingController@handleSetDefaultPaymentMethod']);
         Route::delete('payment-method/{id}', ['uses' => 'AccountBillingController@handleDeletePaymentMethod']);
         Route::get('history', ['uses' => 'AccountBillingController@showBillingHistory']);
-        Route::get('history/data', ['uses' => 'AccountBillingController@dataTables']);
-
         Route::post('cancel-subscription', ['uses' => 'AccountBillingController@handleCancelSubscription']);
         Route::post('resume-subscription', ['uses' => 'AccountBillingController@handleResumeSubscription']);
     });

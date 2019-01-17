@@ -150,11 +150,6 @@
     $trail->parent('account');
     $trail->push('My Subscription', url('account/billing/subscription'));
 });
-\Breadcrumbs::for('account/billing/upgrade', function($trail)
-{
-    $trail->parent('account');
-    $trail->push('Complete Subscription', url('account/billing/upgrade'));
-});
 \Breadcrumbs::for('account/billing/payment-methods', function($trail)
 {
     $trail->parent('account');
@@ -163,12 +158,7 @@
 \Breadcrumbs::for('account/billing/history', function($trail)
 {
     $trail->parent('account');
-    $trail->push('Billing History', url('account/billing/history'));
-});
-\Breadcrumbs::for('account/billing/change-plan', function($trail)
-{
-    $trail->parent('account/billing/subscription');
-    $trail->push('Change Subscription Plan', url('account/billing/change-plan'));
+    $trail->push('Payment History', url('account/billing/history'));
 });
 
 // settings

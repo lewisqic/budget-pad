@@ -55,6 +55,11 @@ class CompanyPaymentMethodService extends BaseService
     }
 
 
+    /**
+     * Update all payment methods for a company
+     * @param $company
+     * @param $data
+     */
     public function updateAll($company, $data)
     {
 
@@ -78,26 +83,52 @@ class CompanyPaymentMethodService extends BaseService
 
         // create new stripe payment source if necessary
         if ( !empty($data['token']) ) {
-
-            $stripe_customer = \Stripe\Customer::retrieve($company->stripe_customer_id);
-            $source = $stripe_customer->sources->create([
-                'source' => $data['token']
-            ]);
-
-            // create company payment method
-            $this->create([
-                'company_id'          => $company->id,
-                'stripe_source_id'    => $source->id,
-                'cc_type'             => $source->brand,
-                'cc_last4'            => $source->last4,
-                'cc_expiration_month' => $source->exp_month,
-                'cc_expiration_year'  => $source->exp_year
-            ]);
-
+            $this->addSource($company, $data['token']);
         }
         
     }
 
+    /**
+     * Add new payment method to company
+     * @param $company
+     * @param $token
+     *
+     * @return mixed
+     */
+    public function addSource($company, $token)
+    {
+
+        $stripe_customer = \Stripe\Customer::retrieve($company->stripe_customer_id);
+        $source = $stripe_customer->sources->create([
+            'source' => $token
+        ]);
+
+        // create company payment method
+        $this->create([
+            'company_id'          => $company->id,
+            'stripe_source_id'    => $source->id,
+            'cc_type'             => $source->brand,
+            'cc_last4'            => $source->last4,
+            'cc_expiration_month' => $source->exp_month,
+            'cc_expiration_year'  => $source->exp_year
+        ]);
+
+        return $source;
+
+    }
+
+    /**
+     * Set a default payment method for a company
+     * @param $comany
+     * @param $payment_method_id
+     */
+    public function setDefault($company, $payment_method_id)
+    {
+        foreach ( CompanyPaymentMethod::where('company_id', $company->id)->get() as $method ) {
+            $method->is_default = $payment_method_id == $method->id ? true : false;
+            $method->save();
+        }
+    }
 
 
 }

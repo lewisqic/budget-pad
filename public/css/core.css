@@ -20248,21 +20248,33 @@ ADMINLY STYLES
   border-bottom-color: #f5f6f7;
 }
 
+.adminly .header .navbar .dropdown-menu.feedback {
+  width: 300px;
+}
+
+.adminly .header .navbar .dropdown-menu.feedback form {
+  margin: 15px;
+}
+
+.adminly .header .navbar .dropdown-menu.feedback form button {
+  text-align: center;
+}
+
 .adminly .header .navbar .dropdown-menu.language:after {
   border-bottom-color: #f5f6f7;
 }
 
-.adminly .header .navbar form .input-group {
+.adminly .header .navbar #global_search_form .input-group {
   height: 33px;
 }
 
-.adminly .header .navbar form button {
+.adminly .header .navbar #global_search_form button {
   background: none;
   color: #fff;
   border: none;
 }
 
-.adminly .header .navbar form input {
+.adminly .header .navbar #global_search_form input {
   border: none;
   background: none;
   color: #fff;
@@ -20270,26 +20282,26 @@ ADMINLY STYLES
   font-size: 14px;
 }
 
-.adminly .header .navbar form ::-webkit-input-placeholder {
+.adminly .header .navbar #global_search_form ::-webkit-input-placeholder {
   color: #7fc5e6 !important;
   opacity: 1;
 }
 
-.adminly .header .navbar form ::-ms-input-placeholder {
+.adminly .header .navbar #global_search_form ::-ms-input-placeholder {
   color: #7fc5e6 !important;
   opacity: 1;
 }
 
-.adminly .header .navbar form ::placeholder {
+.adminly .header .navbar #global_search_form ::placeholder {
   color: #7fc5e6 !important;
   opacity: 1;
 }
 
-.adminly .header .navbar form :-ms-input-placeholder {
+.adminly .header .navbar #global_search_form :-ms-input-placeholder {
   color: #7fc5e6 !important;
 }
 
-.adminly .header .navbar form ::-ms-input-placeholder {
+.adminly .header .navbar #global_search_form ::-ms-input-placeholder {
   color: #7fc5e6 !important;
 }
 
@@ -21258,6 +21270,11 @@ h5 small {
 
 #datepicker-wrapper {
   position: relative;
+}
+
+#card_element {
+  border-bottom: 1px solid #ced4da;
+  padding: 6px 2px;
 }
 
 table.table thead th {

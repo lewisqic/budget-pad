@@ -255,7 +255,7 @@ var Adminly = function () {
 
             // save page to favorites
             $.ajax({
-                url: Core.url('admin/save-favorite'),
+                url: Core.url($.url().segment(1) + '/save-favorite'),
                 data: {
                     icon: icon,
                     title: title,
@@ -285,7 +285,7 @@ var Adminly = function () {
             var path = $link.attr('href').replace(/.*\.\w{2,}\//, '');
             // remove page from favorites
             $.ajax({
-                url: Core.url('admin/delete-favorite'),
+                url: Core.url($.url().segment(1) + '/delete-favorite'),
                 data: {
                     path: path
                 },

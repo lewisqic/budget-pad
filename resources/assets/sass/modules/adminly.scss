@@ -110,13 +110,22 @@ ADMINLY STYLES
                         border-bottom-color: #f5f6f7;
                     }
                 }
+                &.feedback {
+                    width: 300px;
+                    form {
+                        margin: 15px;
+                        button {
+                            text-align: center;
+                        }
+                    }
+                }
                 &.language {
                     &:after {
                         border-bottom-color: #f5f6f7;
                     }
                 }
             }
-            form {
+            #global_search_form {
                 .input-group {
                     height: 33px;
                 }

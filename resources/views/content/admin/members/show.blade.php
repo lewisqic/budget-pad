@@ -68,13 +68,6 @@
 
                 <br>
 
-                <div class="form-group row">
-                    <label class="col-form-label col-sm-2">Last Login:</label>
-                    <div class="col-sm-10 form-control-static">
-                        {!! $user->last_login ? $user->last_login->toDayDateTimeString() : '<em>no logins</em>' !!}
-                    </div>
-                </div>
-
                 @if ( $user->updated_at )
                     <div class="form-group row">
                         <label class="col-form-label col-sm-2">Last Updated:</label>
@@ -191,13 +184,15 @@
 
                     <table class="table table-striped">
                         <thead>
-                            <th>Charge ID</th>
-                            <th>Amount</th>
-                            <th>Card</th>
-                            <th>Notes</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                            <th></th>
+                            <tr>
+                                <th>Charge ID</th>
+                                <th>Amount</th>
+                                <th>Card</th>
+                                <th>Notes</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th></th>
+                            </tr>
                         </thead>
                         @foreach ( $payments as $payment )
 

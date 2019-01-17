@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Models\User;
 use App\Models\CompanySubscription;
+use App\Mail\AdminFeedback;
 use App\Http\Controllers\Controller;
 
 class AccountIndexController extends Controller
@@ -17,6 +18,22 @@ class AccountIndexController extends Controller
     public function showDashboard()
     {
         return view('content.account.index.dashboard');
+    }
+
+    public function sendFeedback()
+    {
+        $data = \Request::all();
+        $user = \Auth::user();
+        $mail_data = [
+            'replyTo' => [
+                ['name' => $user->name, 'address' => $user->email]
+            ],
+            'user' => $user,
+            'message' => $data['message']
+        ];
+        \Mail::to(\Config::get('settings.system_email'))->send(new AdminFeedback($mail_data));
+
+        return response()->json(['success' => true, 'message' => 'Your message has been sent to an administrator, we\'ll be in touch soon!']);
     }
 
 
