@@ -96,6 +96,26 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth:account', 'account']
     Route::get('profile', ['uses' => 'AccountProfileController@index']);
     Route::put('profile', ['uses' => 'AccountProfileController@update']);
 
+    // incomes
+    Route::get('incomes/data', ['uses' => 'AccountIncomeController@dataTables']);
+    Route::patch('incomes/{id}', ['uses' => 'AccountIncomeController@restore'])->name('account.incomes.restore');
+    Route::resource('incomes', 'AccountIncomeController', ['as' => 'account']);
+
+    // expenses
+    Route::get('expenses/data', ['uses' => 'AccountExpenseController@dataTables']);
+    Route::patch('expenses/{id}', ['uses' => 'AccountExpenseController@restore'])->name('account.expenses.restore');
+    Route::resource('expenses', 'AccountExpenseController', ['as' => 'account']);
+
+    // categories
+    Route::get('categories/data', ['uses' => 'AccountCategoryController@dataTables']);
+    Route::patch('categories/{id}', ['uses' => 'AccountCategoryController@restore'])->name('account.categories.restore');
+    Route::resource('categories', 'AccountCategoryController', ['as' => 'account']);
+
+    // tags
+    Route::get('tags/data', ['uses' => 'AccountTagController@dataTables']);
+    Route::patch('tags/{id}', ['uses' => 'AccountTagController@restore'])->name('account.tags.restore');
+    Route::resource('tags', 'AccountTagController', ['as' => 'account']);
+
     // users
     Route::get('users/data', ['uses' => 'AccountUserController@dataTables']);
     Route::patch('users/{id}', ['uses' => 'AccountUserController@restore'])->name('account.users.restore');

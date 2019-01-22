@@ -405,6 +405,9 @@ class Core {
         $('.color-picker input').on('focus', function() {
             $(this).closest('.color-picker').colorpicker('show');
         });
+        $('.selectize').selectize({
+
+        });
     }
 
 
@@ -603,6 +606,20 @@ class Core {
             animation: {
                 duration: 700,
                 easing: 'easeOutQuint'
+            },
+            events: {
+                on: {
+                    animation: {
+                        open: function() {
+                            $('.configurator').hide();
+                        },
+                        close: function() {
+                            /*setTimeout(function() {
+                                $('.configurator').show();
+                            }, 800);*/
+                        },
+                    }
+                }
             }
         });
 

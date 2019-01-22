@@ -144,6 +144,94 @@
     $trail->push('Profile', url('account/profile'));
 });
 
+// categories
+\Breadcrumbs::for('account/categories', function($trail)
+{
+    $trail->parent('account');
+    $trail->push('Categories', url('account/categories'));
+});
+\Breadcrumbs::for('account/categories/create', function($trail)
+{
+    $trail->parent('account/categories');
+    $trail->push('Create', url('account/categories/create'));
+});
+\Breadcrumbs::for('account/categories/show', function($trail, $category)
+{
+    $trail->parent('account/categories');
+    $trail->push($category->name, url('account/categories/' . $category->id));
+});
+\Breadcrumbs::for('account/categories/edit', function($trail, $category)
+{
+    $trail->parent('account/categories/show', $category);
+    $trail->push('Edit', url('account/categories/edit/' . $category->id));
+});
+
+// tags
+\Breadcrumbs::for('account/tags', function($trail)
+{
+    $trail->parent('account');
+    $trail->push('Tags', url('account/tags'));
+});
+\Breadcrumbs::for('account/tags/create', function($trail)
+{
+    $trail->parent('account/tags');
+    $trail->push('Create', url('account/tags/create'));
+});
+\Breadcrumbs::for('account/tags/show', function($trail, $tag)
+{
+    $trail->parent('account/tags');
+    $trail->push($tag->name, url('account/tags/' . $tag->id));
+});
+\Breadcrumbs::for('account/tags/edit', function($trail, $tag)
+{
+    $trail->parent('account/tags/show', $tag);
+    $trail->push('Edit', url('account/tags/edit/' . $tag->id));
+});
+
+// incomes
+\Breadcrumbs::for('account/incomes', function($trail)
+{
+    $trail->parent('account');
+    $trail->push('Income', url('account/incomes'));
+});
+\Breadcrumbs::for('account/incomes/create', function($trail)
+{
+    $trail->parent('account/incomes');
+    $trail->push('Create', url('account/incomes/create'));
+});
+\Breadcrumbs::for('account/incomes/show', function($trail, $income)
+{
+    $trail->parent('account/incomes');
+    $trail->push($income->notes ?? 'Income', url('account/incomes/' . $income->id));
+});
+\Breadcrumbs::for('account/incomes/edit', function($trail, $income)
+{
+    $trail->parent('account/incomes/show', $income);
+    $trail->push('Edit', url('account/incomes/edit/' . $income->id));
+});
+
+// expenses
+\Breadcrumbs::for('account/expenses', function($trail)
+{
+    $trail->parent('account');
+    $trail->push('Expenses', url('account/expenses'));
+});
+\Breadcrumbs::for('account/expenses/create', function($trail)
+{
+    $trail->parent('account/expenses');
+    $trail->push('Create', url('account/expenses/create'));
+});
+\Breadcrumbs::for('account/expenses/show', function($trail, $expense)
+{
+    $trail->parent('account/expenses');
+    $trail->push($expense->notes ?? 'Expense', url('account/expenses/' . $expense->id));
+});
+\Breadcrumbs::for('account/expenses/edit', function($trail, $expense)
+{
+    $trail->parent('account/expenses/show', $expense);
+    $trail->push('Edit', url('account/expenses/edit/' . $expense->id));
+});
+
 // billing
 \Breadcrumbs::for('account/billing/subscription', function($trail)
 {

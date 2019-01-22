@@ -6,6 +6,11 @@ ADMINLY STYLES
     background: #f5f6f7;
     overflow-x: hidden;
 
+    &.modal-open {
+        padding-right: 0 !important;
+        overflow-y: auto;
+    }
+
     /**
     GLOBAL
      */
@@ -225,6 +230,13 @@ ADMINLY STYLES
             }
             .submenu {
                 display: none;
+            }
+            &.button {
+                float: right;
+                padding: 5px 0 0 20px;
+                a {
+                    padding: 5px 10px;
+                }
             }
             &.active {
                 & > a {
@@ -471,7 +483,7 @@ ADMINLY STYLES
         background: #fff;
         width: 240px;
         border-radius: 0 0 0 3px;
-        z-index: 2999;
+        z-index: 1000;
         border: 1px solid #e8e9ea;
         .handle {
             color: #555555;

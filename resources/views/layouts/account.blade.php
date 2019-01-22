@@ -53,7 +53,7 @@
                                     {!! Html::hiddenInput(['method' => 'post', 'ajax' => true]) !!}
                                     <textarea name="message" rows="4" class="form-control" placeholder="Enter your comments and/or feedback here..."></textarea>
                                     <div class="text-center mt-3">
-                                        <button type="submit" class="btn btn-outline-success" data-loading-text="<i class='fa fa-circle-notch fa-spin fa-lg'></i>"><i class="fa fa-check"></i> Submit</button>
+                                        <button type="submit" class="btn btn-sm btn-primary" data-loading-text="<i class='fa fa-circle-notch fa-spin fa-lg'></i>"><i class="fa fa-check"></i> Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -70,6 +70,7 @@
                                     <strong>{{ $auth_user->name }}</strong><br>{{ $auth_user->email }}
                                 </div>
                                 <a class="dropdown-item" href="{{ url('account/profile') }}"><i class="fal fa-id-card fa-fw text-primary mr-1"></i> My Profile</a>
+                                <a class="dropdown-item" href="{{ url('account/billing/subscription') }}"><i class="fal fa-credit-card fa-fw text-primary mr-1"></i> Billing & Subscription</a>
                                 <div class="dropdown-footer">
                                     <a class="dropdown-item" href="{{ url('auth/logout') }}"><i class="far fa-power-off fa-fw text-danger mr-1"></i> Sign Out</a>
                                 </div>
@@ -89,12 +90,24 @@
                     {{-- Dashboard --}}
                     <li class="{{ \Request::is('account') ? 'active' : '' }}"><a href="{{ url('account') }}">Dashboard</a></li>
 
+                    {{-- Incomes --}}
+                    <li class="{{ \Request::is('account/incomes*') ? 'active' : '' }}"><a href="{{ url('account/incomes') }}">Income</a></li>
+
+                    {{-- Expenses --}}
+                    <li class="{{ \Request::is('account/expenses*') ? 'active' : '' }}"><a href="{{ url('account/expenses') }}">Expenses</a></li>
+
+                    {{-- Categories --}}
+                    <li class="{{ \Request::is('account/categories*') ? 'active' : '' }}"><a href="{{ url('account/categories') }}">Categories</a></li>
+
+                    {{-- Tags --}}
+                    <li class="{{ \Request::is('account/tags*') ? 'active' : '' }}"><a href="{{ url('account/tags') }}">Tags</a></li>
+
 
                     {{-- System --}}
-                    @if ( \Request::is('account/billing*') || \Request::is('account/settings*') )
+                    {{--@if ( \Request::is('account/billing*') || \Request::is('account/settings*') )
                         @php $has_submenu = true; $system_active = 'active'; @endphp
-                    @endif
-                    <li class="has-submenu {{ $system_active ?? '' }}">
+                    @endif--}}
+                    {{--<li class="has-submenu {{ $system_active ?? '' }}">
                         <a href="#">System</a>
                         <ul class="submenu dropdown-arrow animated fadeInUp">
 
@@ -103,6 +116,13 @@
                             <li class="{{ \Request::is('account/settings*') ? 'active' : '' }}"><a href="{{ url('account/settings') }}"><i class="fal fa-cogs fa-fw"></i> Settings</a></li>
 
                         </ul>
+                    </li>--}}
+
+                    <li class="button">
+                        <a href="{{ url('account/expenses/create') }}" class="btn btn-sm btn-outline-secondary open-sidebar"><i class="fa fa-plus-circle"></i> Add Expense</a>
+                    </li>
+                    <li class="button">
+                        <a href="{{ url('account/incomes/create') }}" class="btn btn-sm btn-outline-secondary open-sidebar"><i class="fa fa-plus-circle"></i> Add Income</a>
                     </li>
 
                 </ul>

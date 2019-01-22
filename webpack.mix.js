@@ -68,6 +68,7 @@ mix.scripts([
         'resources/assets/js/vendor/dataTables.bootstrap4.min.js',
         'resources/assets/js/vendor/jquery.simpler-sidebar.js',
         'resources/assets/js/vendor/jquery-ui.min.js',
+        'resources/assets/js/vendor/selectize.min.js',
         'resources/assets/js/vendor/purl.js'
     ],
     'public/js/vendor.' + (prod ? 'min.' : '') + 'js'

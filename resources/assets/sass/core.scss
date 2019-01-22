@@ -24,10 +24,10 @@ $use-fade: true;
 // Font Awesome
 $fa-font-path: '../fonts';
 @import 'vendor/font-awesome/scss/fontawesome';
-@import 'vendor/font-awesome/scss/fa-brands';
-@import 'vendor/font-awesome/scss/fa-light';
-@import 'vendor/font-awesome/scss/fa-regular';
-@import 'vendor/font-awesome/scss/fa-solid';
+@import 'vendor/font-awesome/scss/brands';
+@import 'vendor/font-awesome/scss/light';
+@import 'vendor/font-awesome/scss/regular';
+@import 'vendor/font-awesome/scss/solid';
 
 // Awesome Bootstrap Checkbox
 @import "vendor/awesome-bootstrap-checkbox";
@@ -37,6 +37,9 @@ $fa-font-path: '../fonts';
 
 // Form Validation
 @import 'resources/assets/css/vendor/formValidation';
+
+// Selectize
+@import 'resources/assets/css/vendor/selectize';
 
 // import modules
 @import 'modules';
@@ -481,6 +484,16 @@ div.labels-right{
         &:focus {
             outline: none;
         }
+    }
+}
+
+// selectize
+.selectize-input {
+    box-shadow: none;
+    border-color: #ced4da;
+    &.focus {
+        box-shadow: none;
+        border-color: $gray-900;
     }
 }
 

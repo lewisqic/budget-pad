@@ -43,6 +43,7 @@ class BaseModel extends Model
      * @var array
      */
     protected $dates = [
+        'date_at',
         'refunded_at',
         'expires_at',
         'next_billing_at',

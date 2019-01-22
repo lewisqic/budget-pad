@@ -515,6 +515,7 @@ var Core = function () {
             $('.color-picker input').on('focus', function () {
                 $(this).closest('.color-picker').colorpicker('show');
             });
+            $('.selectize').selectize({});
         }
 
         /**
@@ -713,6 +714,20 @@ var Core = function () {
                 animation: {
                     duration: 700,
                     easing: 'easeOutQuint'
+                },
+                events: {
+                    on: {
+                        animation: {
+                            open: function open() {
+                                $('.configurator').hide();
+                            },
+                            close: function close() {
+                                /*setTimeout(function() {
+                                    $('.configurator').show();
+                                }, 800);*/
+                            }
+                        }
+                    }
                 }
             });
 

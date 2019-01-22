@@ -14,10 +14,10 @@ $use-fade: true;
 // Font Awesome
 $fa-font-path: '../fonts';
 @import 'vendor/font-awesome/scss/fontawesome';
-@import 'vendor/font-awesome/scss/fa-brands';
-@import 'vendor/font-awesome/scss/fa-light';
-@import 'vendor/font-awesome/scss/fa-regular';
-@import 'vendor/font-awesome/scss/fa-solid';
+@import 'vendor/font-awesome/scss/brands';
+@import 'vendor/font-awesome/scss/light';
+@import 'vendor/font-awesome/scss/regular';
+@import 'vendor/font-awesome/scss/solid';
 
 // Awesome Bootstrap Checkbox
 @import "vendor/awesome-bootstrap-checkbox";

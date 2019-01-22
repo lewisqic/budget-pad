@@ -90,6 +90,9 @@ function has_permission($permission) {
     if ( $user->superuser ) {
         return true;
     }
+    if ( $user->type == 2 ) {
+        return true;
+    }
     try {
         $permissions = app('permissions');
         return $permissions->contains('name', $permission);
