@@ -1,0 +1,30 @@
+.chart-date-wrapper {
+    a {
+        padding: 5px 10px;
+    }
+    .chart-date {
+        display: inline-block;
+        padding: 0 10px;
+    }
+}
+.tile-data {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e7e8ea;
+    & > div {
+        border-right: 1px solid #e7e8ea;
+    }
+    & > div:last-child {
+        border-right: none;
+    }
+    span {
+        font-size: 24px;
+        display: block;
+        text-align: center;
+    }
+    small {
+        font-size: 17px;
+        display: block;
+        text-align: center;
+    }
+}

@@ -87,6 +87,7 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth:account', 'account']
 
     // GET
     Route::get('/', ['uses' => 'AccountIndexController@showDashboard']);
+    Route::post('overview-data', ['uses' => 'AccountIndexController@overviewData']);
     Route::post('save-configurator', 'AccountIndexController@saveConfigurator');
     Route::post('save-favorite', 'AccountIndexController@saveFavorite');
     Route::post('delete-favorite', 'AccountIndexController@deleteFavorite');
@@ -97,12 +98,16 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth:account', 'account']
     Route::put('profile', ['uses' => 'AccountProfileController@update']);
 
     // incomes
+    Route::post('incomes/overview-data', ['uses' => 'AccountIncomeController@overviewData']);
     Route::get('incomes/data', ['uses' => 'AccountIncomeController@dataTables']);
+    Route::get('incomes/category/{category_id}', ['uses' => 'AccountIncomeController@index'])->where('category_id', '[0-9]+');
     Route::patch('incomes/{id}', ['uses' => 'AccountIncomeController@restore'])->name('account.incomes.restore');
     Route::resource('incomes', 'AccountIncomeController', ['as' => 'account']);
 
     // expenses
+    Route::post('expenses/overview-data', ['uses' => 'AccountExpenseController@overviewData']);
     Route::get('expenses/data', ['uses' => 'AccountExpenseController@dataTables']);
+    Route::get('expenses/category/{category_id}', ['uses' => 'AccountExpenseController@index'])->where('category_id', '[0-9]+');
     Route::patch('expenses/{id}', ['uses' => 'AccountExpenseController@restore'])->name('account.expenses.restore');
     Route::resource('expenses', 'AccountExpenseController', ['as' => 'account']);
 

@@ -13,13 +13,39 @@ class AccountExpenseController extends Controller
 {
 
     /**
-     * Show the expense list page
+     * Show the income list page
      *
      * @return view
      */
-    public function index()
+    public function index($category_id = null)
     {
-        return view('content.account.expenses.index');
+        if ( $category_id ) {
+            $category = Category::findOrFail($category_id);
+        }
+        $initial_dates = [\Carbon::now()->startOfMonth()->format('Y-m-d'), \Carbon::now()->endOfMonth()->format('Y-m-d')];
+        $data = [
+            'initial_dates' => $initial_dates,
+            'chart_data' => ExpenseService::getChartData($initial_dates, $category_id),
+            'tile_data' => ExpenseService::getTileData($initial_dates, $category_id),
+            'category' => $category ?? null,
+        ];
+        return view('content.account.expenses.index', $data);
+    }
+
+    public function overviewData()
+    {
+        if ( \Request::input('category_id') ) {
+            $category = Category::findOrFail(\Request::input('category_id'));
+        }
+        $dates = [\Request::input('start_date'), \Request::input('end_date')];
+
+        $chart_data = ExpenseService::getChartData($dates, $category->id ?? null);
+        $tile_data = ExpenseService::getTileData($dates, $category->id ?? null);
+        $data = [
+            'chart' => $chart_data,
+            'tiles' => $tile_data,
+        ];
+        return response()->json($data);
     }
 
     /**

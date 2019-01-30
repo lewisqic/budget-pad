@@ -221,6 +221,12 @@
     @yield('content')
 </div>
 
+<div class="footer">
+    <div class="container-fluid text-center">
+        Copyright &copy; {{ date('Y') }} BudgetPad
+    </div>
+</div>
+
 <div id="datepicker-wrapper"></div>
 
 <div class="sidebar-right" id="sidebar-right">

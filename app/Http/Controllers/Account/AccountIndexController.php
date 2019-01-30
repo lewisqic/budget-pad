@@ -2,7 +2,8 @@
 namespace App\Http\Controllers\Account;
 
 use App\Models\User;
-use App\Models\CompanySubscription;
+use App\Models\Expense;
+use Facades\App\Services\ExpenseService;
 use App\Mail\AdminFeedback;
 use App\Http\Controllers\Controller;
 
@@ -17,7 +18,26 @@ class AccountIndexController extends Controller
      */
     public function showDashboard()
     {
-        return view('content.account.index.dashboard');
+        $initial_dates = [\Carbon::now()->startOfMonth()->format('Y-m-d'), \Carbon::now()->endOfMonth()->format('Y-m-d')];
+        $data = [
+            'initial_dates' => $initial_dates,
+            'chart_data' => ExpenseService::getChartData($initial_dates),
+            'tile_data' => ExpenseService::getDashboardTiles($initial_dates),
+        ];
+        return view('content.account.index.dashboard', $data);
+    }
+
+    public function overviewData()
+    {
+        $dates = [\Request::input('start_date'), \Request::input('end_date')];
+
+        $chart_data = ExpenseService::getChartData($dates);
+        $tile_data = ExpenseService::getDashboardTiles($dates);
+        $data = [
+            'chart' => $chart_data,
+            'tiles' => $tile_data,
+        ];
+        return response()->json($data);
     }
 
     public function sendFeedback()
