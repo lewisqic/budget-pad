@@ -8,7 +8,8 @@ class Charting {
      */
     constructor() {
         // declare our class properties
-        this.chart = null;
+        this.oChart = null;
+        this.tCharts = [];
         // call init
         this.init();
     }
@@ -22,6 +23,7 @@ class Charting {
         this.bindEvents();
         this.dateRangePicker();
         this.overviewChart();
+        this.tagsChart();
     }
 
     /**
@@ -36,6 +38,11 @@ class Charting {
             self.changeDate($(this));
         });
 
+        $('.expandable h4').on('click', function(e) {
+            e.preventDefault();
+            $(this).parent().find('.content').slideToggle('fast');
+        });
+
     }
 
     dateRangePicker() {
@@ -46,15 +53,10 @@ class Charting {
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             $('.start-date').val(start.format('YYYY-MM-DD'));
             $('.end-date').val(end.format('YYYY-MM-DD'));
-            if ( $table.length ) {
-                let params = $.parseJSON($table.attr('data-params'));
-                params['start_date'] = start.format('YYYY-MM-DD');
-                params['end_date'] = end.format('YYYY-MM-DD');
-                $table.attr('data-params', JSON.stringify(params));
-                $table.closest('.dataTables_wrapper').find('.dataTables_refresh a').click();
-            }
             if ( initial_load !== true ) {
-                self.updateData();
+                $('input[name="start_date"]').val(start.format('YYYY-MM-DD'));
+                $('input[name="end_date"]').val(end.format('YYYY-MM-DD'));
+                $('#change_dates_form').submit();
             }
         }
 
@@ -89,7 +91,7 @@ class Charting {
         });
 
         let ctx = document.getElementById("data_chart");
-        this.chart = new Chart(ctx, {
+        this.oChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
@@ -122,56 +124,43 @@ class Charting {
 
     }
 
-    updateData() {
+    tagsChart() {
         let self = this;
 
-        function currency(value) {
-            return '$' + (parseFloat(value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
-        }
+        $('.tags_chart').each(function(index, el) {
 
-        $('.chart-wrapper').fadeTo(0, 0.5);
+            let incomes = $(this).attr('data-incomes');
+            let expenses = $(this).attr('data-expenses');
+            let ctx = $(this)[0];
+            let tChart = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: {
+                    labels: [
+                        'Expenses',
+                        'Income',
+                    ],
+                    datasets: [{
+                        label: '',
+                        data: [expenses, incomes],
+                        backgroundColor: ['#cc0200', '#77b302']
+                    }]
+                },
+                options: {
+                    legend: { display: false },
+                    scales: { xAxes: [{ ticks: { beginAtZero: true } }] },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                let label = data.datasets[tooltipItem.datasetIndex].label;
+                                let dataLabel = data.labels[tooltipItem.index];
+                                return label + ': $' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString();
+                            }
+                        }
+                    }
+                }
+            });
+            self.tCharts.push(tChart);
 
-        $.ajax({
-            url: Core.url($.url().segment(1) + ($.url().segment(2) ? '/' + $.url().segment(2) : '') + '/overview-data'),
-            data: {
-                category_id: $('.category-id').val(),
-                start_date: $('.start-date').val(),
-                end_date: $('.end-date').val(),
-            },
-            method: 'POST',
-            dataType: 'json',
-            success: function(data) {
-
-                // update chart
-                let labels = [];
-                let days = [];
-                let avg = [];
-                $.each(data.chart, function(index, row) {
-                    labels.push(row.label);
-                    days.push(row.day);
-                    avg.push(row.avg);
-                });
-                self.chart.data.labels = labels,
-                self.chart.data.datasets[0].data = avg;
-                self.chart.data.datasets[1].data = days;
-                self.chart.update();
-
-                // update tiles
-                $('.tile-data .incomes').text(currency(data.tiles.incomes));
-                $('.tile-data .expenses').text(currency(data.tiles.expenses));
-                $('.tile-data .net').text(currency(data.tiles.net));
-                $('.tile-data .savings').text(data.tiles.savings + '%');
-                $('.tile-data .transactions').text(data.tiles.transactions);
-                $('.tile-data .avg').text(currency(data.tiles.avg));
-
-                $('.tile-data .incomes, .tile-data .net, .tile-data .savings').removeClass('text-success text-danger');
-                $('.tile-data .incomes').addClass('text-' + (data.tiles.incomes > 0 ? 'success' : 'danger'));
-                $('.tile-data .net').addClass('text-' + (data.tiles.net > 0 ? 'success' : 'danger'));
-                $('.tile-data .savings').addClass('text-' + (data.tiles.savings > 0 ? 'success' : 'danger'));
-
-                $('.chart-wrapper').fadeTo(0, 1);
-
-            }
         });
 
     }

@@ -35,4 +35,40 @@ class TagService extends BaseService
         return $tags_arr;
     }
 
+    public function getDashboardStats($dates)
+    {
+        $start_date = \Carbon::parse($dates[0]);
+        $end_date = \Carbon::parse($dates[1]);
+
+        $tags = Tag::with('incomes', 'expenses')->where('company_id', app('company')->id)->orderBy('name', 'ASC')->get();
+
+        $stats = [];
+        foreach ( $tags as $tag ) {
+            if ( $tag->incomes->isEmpty() && $tag->expenses->isEmpty() ) {
+                continue;
+            }
+            $incomes = 0;
+            $expenses = 0;
+            foreach ( $tag->incomes as $income ) {
+                if ( $income->date_at >= $start_date->startOfDay()->format('Y-m-d H:i:s') && $income->date_at <= $end_date->endOfDay()->format('Y-m-d H:i:s') ) {
+                    $incomes += $income->amount;
+                }
+            }
+            foreach ( $tag->expenses as $expense ) {
+                if ( $expense->date_at >= $start_date->startOfDay()->format('Y-m-d H:i:s') && $expense->date_at <= $end_date->endOfDay()->format('Y-m-d H:i:s') ) {
+                    $expenses += $expense->amount;
+                }
+            }
+            $stats[] = [
+                'id' => $tag->id,
+                'tag' => $tag->name,
+                'incomes' => $incomes,
+                'expenses' => $expenses,
+            ];
+        }
+        
+        return $stats;
+        
+    }
+
 }

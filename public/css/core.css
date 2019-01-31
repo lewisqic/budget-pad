@@ -24421,6 +24421,26 @@ ADMINLY STYLES
   text-align: center;
 }
 
+.expandable {
+  border-bottom: 1px solid #e7e8ea;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.expandable h4 {
+  text-align: center;
+  cursor: pointer;
+}
+
+.expandable .content {
+  margin: 20px;
+  display: none;
+}
+
+.expandable:first-child {
+  padding-top: 0;
+}
+
 /*************************************************
 UTILITIES
 *************************************************/

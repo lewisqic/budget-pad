@@ -3,7 +3,10 @@ namespace App\Http\Controllers\Account;
 
 use App\Models\User;
 use App\Models\Expense;
+use Facades\App\Services\IncomeService;
 use Facades\App\Services\ExpenseService;
+use Facades\App\Services\CategoryService;
+use Facades\App\Services\TagService;
 use App\Mail\AdminFeedback;
 use App\Http\Controllers\Controller;
 
@@ -18,26 +21,29 @@ class AccountIndexController extends Controller
      */
     public function showDashboard()
     {
-        $initial_dates = [\Carbon::now()->startOfMonth()->format('Y-m-d'), \Carbon::now()->endOfMonth()->format('Y-m-d')];
+        if ( session('start_date') && session('end_date') ) {
+            $dates = [\Carbon::parse(session('start_date'))->format('Y-m-d'), \Carbon::parse(session('end_date'))->format('Y-m-d')];
+        } else {
+            $dates = [\Carbon::now()->startOfMonth()->format('Y-m-d'), \Carbon::now()->endOfMonth()->format('Y-m-d')];
+        }
         $data = [
-            'initial_dates' => $initial_dates,
-            'chart_data' => ExpenseService::getChartData($initial_dates),
-            'tile_data' => ExpenseService::getDashboardTiles($initial_dates),
+            'dates' => $dates,
+            'chart_data' => ExpenseService::getChartData($dates),
+            'tile_data' => ExpenseService::getDashboardTiles($dates),
+            'category_data' => CategoryService::getDashboardStats($dates),
+            'tag_data' => TagService::getDashboardStats($dates),
         ];
         return view('content.account.index.dashboard', $data);
     }
 
-    public function overviewData()
+    public function changeDates()
     {
-        $dates = [\Request::input('start_date'), \Request::input('end_date')];
-
-        $chart_data = ExpenseService::getChartData($dates);
-        $tile_data = ExpenseService::getDashboardTiles($dates);
-        $data = [
-            'chart' => $chart_data,
-            'tiles' => $tile_data,
+        $dates = [
+            \Carbon::parse(\Request::input('start_date'))->format('Y-m-d'),
+            \Carbon::parse(\Request::input('end_date'))->format('Y-m-d'),
         ];
-        return response()->json($data);
+        session(['start_date' => $dates[0], 'end_date' => $dates[1]]);
+        return back();
     }
 
     public function sendFeedback()

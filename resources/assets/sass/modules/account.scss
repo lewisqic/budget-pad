@@ -28,3 +28,20 @@
         text-align: center;
     }
 }
+
+.expandable {
+    border-bottom: 1px solid #e7e8ea;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    h4 {
+        text-align: center;
+        cursor: pointer;
+    }
+    .content {
+        margin: 20px;
+        display: none;
+    }
+    &:first-child {
+        padding-top: 0;
+    }
+}

@@ -38,4 +38,85 @@ class CategoryService extends BaseService
         return $categories_arr;
     }
 
+    public function getDashboardStats($dates)
+    {
+        $start_date = \Carbon::parse($dates[0]);
+        $end_date = \Carbon::parse($dates[1]);
+
+        $categories = Category::with('incomes', 'expenses')->where('company_id', app('company')->id)->orderBy('name', 'ASC')->get();
+
+
+        $cats = [
+            'fixed' => [],
+            'discretionary' => [],
+            'income' => [],
+        ];
+        foreach ( $categories as $category ) {
+
+            if ( $category->category_type == 'expense' ) {
+                $cats[$category->amount_type][] = $category;
+            } else {
+                $cats[$category->category_type][] = $category;
+            }
+        }
+
+        $stats = [];
+        foreach ( $cats as $type => $categories ) {
+
+            foreach ( $categories as $category ) {
+
+                $incomes = 0;
+                $expenses = 0;
+                foreach ( $category->incomes as $income ) {
+                    if ( $income->date_at >= $start_date->startOfDay()->format('Y-m-d H:i:s') && $income->date_at <= $end_date->endOfDay()->format('Y-m-d H:i:s') ) {
+                        $incomes += $income->amount;
+                    }
+                }
+                foreach ( $category->expenses as $expense ) {
+                    if ( $expense->date_at >= $start_date->startOfDay()->format('Y-m-d H:i:s') && $expense->date_at <= $end_date->endOfDay()->format('Y-m-d H:i:s') ) {
+                        $expenses += $expense->amount;
+                    }
+                }
+
+                $stats[$type][] = [
+                    'category' => $category,
+                    'expenses' => $expenses,
+                    'incomes' => $incomes,
+                    'budgeted' => $category->budget,
+                    'percent' => $category->budget > 0 ? number_format($expenses / $category->budget, 2) * 100 : 0
+                ];
+            }
+
+        }
+
+        $totals = [
+            'expense' => [],
+            'fixed' => [],
+            'discretionary' => [],
+            'income' => [],
+        ];
+        foreach ( $stats as $type => $categories ) {
+            foreach ( $categories as $category_data ) {
+                foreach ( $category_data as $key => $value ) {
+                    if ( $key != 'category' ) {
+                        $totals[$type][$key] = isset($totals[$type][$key]) ? $totals[$type][$key] + $value : $value;
+                    }
+                }
+            }
+            $totals[$type]['percent'] = count($categories) > 0 ? round($totals[$type]['percent'] / count($categories)) : 0;
+        }
+        $totals['expense'] = [
+            'spent' => $totals['fixed']['expenses'] + $totals['discretionary']['expenses'],
+            'budgeted' => $totals['fixed']['budgeted'] + $totals['discretionary']['budgeted'],
+        ];
+
+        $data = [
+            'data' => $stats,
+            'totals' => $totals
+        ];
+
+        return $data;
+
+    }
+
 }

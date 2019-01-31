@@ -87,6 +87,7 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth:account', 'account']
 
     // GET
     Route::get('/', ['uses' => 'AccountIndexController@showDashboard']);
+    Route::post('change-dates', ['uses' => 'AccountIndexController@changeDates']);
     Route::post('overview-data', ['uses' => 'AccountIndexController@overviewData']);
     Route::post('save-configurator', 'AccountIndexController@saveConfigurator');
     Route::post('save-favorite', 'AccountIndexController@saveFavorite');

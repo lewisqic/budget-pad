@@ -6,12 +6,17 @@
 
     <div class="float-right">
         <input type="hidden" class="category-id" value="{{ $category->id ?? 0 }}">
-        <input type="hidden" class="start-date" value="{{ $initial_dates[0] }}">
-        <input type="hidden" class="end-date" value="{{ $initial_dates[1] }}">
-        <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-            <i class="fa fa-calendar"></i>&nbsp;
-            <span></span> <i class="fa fa-caret-down"></i>
-        </div>
+        <input type="hidden" class="start-date" value="{{ $dates[0] }}">
+        <input type="hidden" class="end-date" value="{{ $dates[1] }}">
+        <form action="{{ url('account/change-dates') }}" method="post" id="change_dates_form">
+            <input type="hidden" name="start_date" value="">
+            <input type="hidden" name="end_date" value="">
+            {!! Html::hiddenInput(['method' => 'post']) !!}
+            <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span></span> <i class="fa fa-caret-down"></i>
+            </div>
+        </form>
     </div>
 
     <h2>
@@ -58,7 +63,7 @@
                     <label class="form-check-label" for="with_trashed">Show Deleted</label>
                 </div>
             </div>
-            <table id="list_expense_table" class="dataTable table table-striped table-hover" data-url="{{ url('account/expenses/data') }}" data-params='{"start_date": "{{ $initial_dates[0] }}", "end_date": "{{ $initial_dates[1] }}", "category_id": {{ $category->id ?? 0 }}}'>
+            <table id="list_expense_table" class="dataTable table table-striped table-hover" data-url="{{ url('account/expenses/data') }}" data-params='{"start_date": "{{ $dates[0] }}", "end_date": "{{ $dates[1] }}", "category_id": {{ $category->id ?? 0 }}}'>
                 <thead>
                 <tr>
                     <th data-name="category">Category</th>

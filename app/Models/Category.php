@@ -57,13 +57,13 @@ class Category extends BaseModel
     // incomes
     public function incomes()
     {
-        return $this->hasOne('App\Models\Income');
+        return $this->hasMany('App\Models\Income');
     }
 
     // expenses
     public function expenses()
     {
-        return $this->hasOne('App\Models\Expense');
+        return $this->hasMany('App\Models\Expense');
     }
 
 
