@@ -78,42 +78,50 @@
                 </h4>
                 <div class="content">
 
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th style="width: 25%;">Category</th>
-                                <th style="width: 25%;">Expenses</th>
-                                <th style="width: 25%;">Budgeted</th>
-                                <th style="width: 25%;">%</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ( $category_data['data']['fixed'] as $data )
-                            <tr>
-                                <td><a href="{{ url('account/expenses/category/' . $data['category']->id) }}">{{ $data['category']->name }}</a></td>
-                                <td>{{ Format::currency($data['expenses']) }}</td>
-                                <td>{{ Format::currency($data['budgeted']) }}</td>
-                                <td class="text-{{ $data['percent'] <= 100 ? 'success' : 'danger' }}">{{ $data['percent'] }}%</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td>
-                                    <strong>Total</strong>
-                                </td>
-                                <td>
-                                    <strong>{{ Format::currency($category_data['totals']['fixed']['expenses']) }}</strong>
-                                </td>
-                                <td>
-                                    <strong>{{ Format::currency($category_data['totals']['fixed']['budgeted']) }}</strong>
-                                </td>
-                                <td class="text-{{ $category_data['totals']['fixed']['percent'] <= 100 ? 'success' : 'danger' }}">
-                                    <strong>{{ $category_data['totals']['fixed']['percent'] }}%</strong>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                    @if ( !empty($category_data['data']['fixed']) )
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 25%;">Category</th>
+                                    <th style="width: 25%;">Expenses</th>
+                                    <th style="width: 25%;">Budgeted</th>
+                                    <th style="width: 25%;">%</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ( $category_data['data']['fixed'] as $data )
+                                <tr>
+                                    <td><a href="{{ url('account/expenses/category/' . $data['category']->id) }}">{{ $data['category']->name }}</a></td>
+                                    <td>{{ Format::currency($data['expenses']) }}</td>
+                                    <td>{{ Format::currency($data['budgeted']) }}</td>
+                                    <td class="text-{{ $data['percent'] <= 100 ? 'success' : 'danger' }}">{{ $data['percent'] }}%</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{ Format::currency($category_data['totals']['fixed']['expenses']) }}</strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{ Format::currency($category_data['totals']['fixed']['budgeted']) }}</strong>
+                                    </td>
+                                    <td class="text-{{ $category_data['totals']['fixed']['percent'] <= 100 ? 'success' : 'danger' }}">
+                                        <strong>{{ $category_data['totals']['fixed']['percent'] }}%</strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    @else
+
+                        <em class="text-muted">No fixed expense data found</em>
+
+                    @endif
 
                 </div>
             </div>
@@ -125,26 +133,28 @@
                 </h4>
                 <div class="content">
 
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th style="width: 25%;">Category</th>
-                            <th style="width: 25%;">Expenses</th>
-                            <th style="width: 25%;">Budgeted</th>
-                            <th style="width: 25%;">%</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ( $category_data['data']['discretionary'] as $data )
+                    @if ( !empty($category_data['data']['discretionary']) )
+
+                        <table class="table table-striped">
+                            <thead>
                             <tr>
-                                <td><a href="{{ url('account/expenses/category/' . $data['category']->id) }}">{{ $data['category']->name }}</a></td>
-                                <td>{{ Format::currency($data['expenses']) }}</td>
-                                <td>{{ Format::currency($data['budgeted']) }}</td>
-                                <td class="text-{{ $data['percent'] <= 100 ? 'success' : 'danger' }}">{{ $data['percent'] }}%</td>
+                                <th style="width: 25%;">Category</th>
+                                <th style="width: 25%;">Expenses</th>
+                                <th style="width: 25%;">Budgeted</th>
+                                <th style="width: 25%;">%</th>
                             </tr>
-                        @endforeach
-                        </tbody>
-                        <tfoot>
+                            </thead>
+                            <tbody>
+                            @foreach ( $category_data['data']['discretionary'] as $data )
+                                <tr>
+                                    <td><a href="{{ url('account/expenses/category/' . $data['category']->id) }}">{{ $data['category']->name }}</a></td>
+                                    <td>{{ Format::currency($data['expenses']) }}</td>
+                                    <td>{{ Format::currency($data['budgeted']) }}</td>
+                                    <td class="text-{{ $data['percent'] <= 100 ? 'success' : 'danger' }}">{{ $data['percent'] }}%</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                            <tfoot>
                             <tr>
                                 <td>
                                     <strong>Total</strong>
@@ -159,8 +169,14 @@
                                     <strong>{{ $category_data['totals']['discretionary']['percent'] }}%</strong>
                                 </td>
                             </tr>
-                        </tfoot>
-                    </table>
+                            </tfoot>
+                        </table>
+
+                    @else
+
+                        <em class="text-muted">No discretionary expense data found</em>
+
+                    @endif
 
                 </div>
             </div>
@@ -172,26 +188,28 @@
                 </h4>
                 <div class="content">
 
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th style="width: 25%;">Category</th>
-                            <th style="width: 25%;">Income</th>
-                            <th style="width: 25%;"></th>
-                            <th style="width: 25%;"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ( $category_data['data']['income'] as $data )
+                    @if ( !empty($category_data['data']['income']) )
+
+                        <table class="table table-striped">
+                            <thead>
                             <tr>
-                                <td><a href="{{ url('account/incomes/category/' . $data['category']->id) }}">{{ $data['category']->name }}</a></td>
-                                <td>{{ Format::currency($data['incomes']) }}</td>
-                                <td></td>
-                                <td></td>
+                                <th style="width: 25%;">Category</th>
+                                <th style="width: 25%;">Income</th>
+                                <th style="width: 25%;"></th>
+                                <th style="width: 25%;"></th>
                             </tr>
-                        @endforeach
-                        </tbody>
-                        <tfoot>
+                            </thead>
+                            <tbody>
+                            @foreach ( $category_data['data']['income'] as $data )
+                                <tr>
+                                    <td><a href="{{ url('account/incomes/category/' . $data['category']->id) }}">{{ $data['category']->name }}</a></td>
+                                    <td>{{ Format::currency($data['incomes']) }}</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                            <tfoot>
                             <tr>
                                 <td>
                                     <strong>Total</strong>
@@ -202,8 +220,14 @@
                                 <td></td>
                                 <td></td>
                             </tr>
-                        </tfoot>
-                    </table>
+                            </tfoot>
+                        </table>
+
+                    @else
+
+                        <em class="text-muted">No income data found</em>
+
+                    @endif
 
                 </div>
             </div>
@@ -217,6 +241,10 @@
 
     <div class="content card">
         <div class="card-body">
+
+            @if ( empty($tag_data) )
+                <em class="text-muted">No tag data found</em>
+            @endif
 
             @foreach ( $tag_data as $tag )
             <div class="expandable">
