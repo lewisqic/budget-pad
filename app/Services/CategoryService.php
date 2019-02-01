@@ -60,7 +60,11 @@ class CategoryService extends BaseService
             }
         }
 
-        $stats = [];
+        $stats = [
+            'fixed' => [],
+            'discretionary' => [],
+            'income' => [],
+        ];
         foreach ( $cats as $type => $categories ) {
 
             foreach ( $categories as $category ) {
@@ -91,9 +95,9 @@ class CategoryService extends BaseService
 
         $totals = [
             'expense' => [],
-            'fixed' => [],
-            'discretionary' => [],
-            'income' => [],
+            'fixed' => ['expenses' => 0, 'budgeted' => 0],
+            'discretionary' => ['expenses' => 0, 'budgeted' => 0],
+            'income' => ['incomes' => 0],
         ];
         foreach ( $stats as $type => $categories ) {
             foreach ( $categories as $category_data ) {
@@ -106,8 +110,8 @@ class CategoryService extends BaseService
             $totals[$type]['percent'] = count($categories) > 0 ? round($totals[$type]['percent'] / count($categories)) : 0;
         }
         $totals['expense'] = [
-            'spent' => (isset($totals['fixed']['expenses']) ? $totals['fixed']['expenses'] : 0) + (isset($totals['discretionary']['expenses']) ? $totals['discretionary']['expenses'] : 0),
-            'budgeted' => (isset($totals['fixed']['budgeted']) ? $totals['fixed']['budgeted'] : 0) + (isset($totals['discretionary']['budgeted']) ? $totals['discretionary']['budgeted'] : 0),
+            'spent' => $totals['fixed']['expenses'] + $totals['discretionary']['expenses'],
+            'budgeted' => $totals['fixed']['budgeted'] + $totals['discretionary']['budgeted'],
         ];
 
         $data = [
