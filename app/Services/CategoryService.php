@@ -106,8 +106,8 @@ class CategoryService extends BaseService
             $totals[$type]['percent'] = count($categories) > 0 ? round($totals[$type]['percent'] / count($categories)) : 0;
         }
         $totals['expense'] = [
-            'spent' => $totals['fixed']['expenses'] + $totals['discretionary']['expenses'],
-            'budgeted' => $totals['fixed']['budgeted'] + $totals['discretionary']['budgeted'],
+            'spent' => (isset($totals['fixed']['expenses']) ? $totals['fixed']['expenses'] : 0) + (isset($totals['discretionary']['expenses']) ? $totals['discretionary']['expenses'] : 0),
+            'budgeted' => (isset($totals['fixed']['budgeted']) ? $totals['fixed']['budgeted'] : 0) + (isset($totals['discretionary']['budgeted']) ? $totals['discretionary']['budgeted'] : 0),
         ];
 
         $data = [
