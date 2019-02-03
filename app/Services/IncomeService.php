@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Income;
-use App\Models\Expense;
 
 class IncomeService extends BaseService
 {
@@ -30,7 +29,7 @@ class IncomeService extends BaseService
                 'id' => $income->id,
                 'class' => !is_null($income->deleted_at) ? 'text-danger' : null,
                 'amount' => \Format::currency($income->amount),
-                'category' => '<a href="' . url('account/incomes/category/' . $income->category_id) . '">' . $income->category->name . '</a>',
+                'category' => is_null($income->category->deleted_at) ? '<a href="' . url('account/incomes/category/' . $income->category_id) . '">' . $income->category->name . '</a>' : '<em class="text-muted">category deleted</em>',
                 'tags' => $income->tags->implode('name', ', '),
                 'notes' => $income->notes,
                 'date_at' => [

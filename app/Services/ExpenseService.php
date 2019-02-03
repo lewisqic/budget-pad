@@ -30,7 +30,7 @@ class ExpenseService extends BaseService
                 'id' => $expense->id,
                 'class' => !is_null($expense->deleted_at) ? 'text-danger' : null,
                 'amount' => \Format::currency($expense->amount),
-                'category' => '<a href="' . url('account/expenses/category/' . $expense->category_id) . '">' . $expense->category->name . '</a>',
+                'category' => is_null($expense->category->deleted_at) ? '<a href="' . url('account/expenses/category/' . $expense->category_id) . '">' . $expense->category->name . '</a>' : '<em class="text-muted">category deleted</em>',
                 'tags' => $expense->tags->implode('name', ', '),
                 'notes' => $expense->notes,
                 'date_at' => [

@@ -119,6 +119,9 @@
                     </li>--}}
 
                     <li class="button">
+                        <a href="{{ url('account/categories/create') }}" class="btn btn-sm btn-outline-secondary open-sidebar"><i class="fa fa-plus-circle"></i> Add Category</a>
+                    </li>
+                    <li class="button">
                         <a href="{{ url('account/expenses/create') }}" class="btn btn-sm btn-outline-secondary open-sidebar"><i class="fa fa-plus-circle"></i> Add Expense</a>
                     </li>
                     <li class="button">
