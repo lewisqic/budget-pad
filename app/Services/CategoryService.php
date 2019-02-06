@@ -22,7 +22,7 @@ class CategoryService extends BaseService
                 'class' => !is_null($category->deleted_at) ? 'text-danger' : null,
                 'category_type' => ucwords($category->category_type),
                 'amount_type' => ucwords($category->amount_type),
-                'name' => $category->name,
+                'name' => '<a href="' . url('account/' . $category->category_type . 's/category/' . $category->id) . '">' . $category->name . '</a>',
                 'budget' => \Format::currency($category->budget),
                 'created_at' => [
                     'display' => $category->created_at->format('M j, Y h:i A'),

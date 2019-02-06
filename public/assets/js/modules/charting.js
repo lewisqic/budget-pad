@@ -146,7 +146,7 @@ var Charting = function () {
                 var tChart = new Chart(ctx, {
                     type: 'horizontalBar',
                     data: {
-                        labels: ['Expenses', 'Income'],
+                        labels: ['$' + expenses + ' Expenses', '$' + incomes + ' Income'],
                         datasets: [{
                             label: '',
                             data: [expenses, incomes],

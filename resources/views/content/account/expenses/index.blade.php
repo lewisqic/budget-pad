@@ -63,7 +63,7 @@
                     <label class="form-check-label" for="with_trashed">Show Deleted</label>
                 </div>
             </div>
-            <table id="list_expense_table" class="dataTable table table-striped table-hover" data-url="{{ url('account/expenses/data') }}" data-params='{"start_date": "{{ $dates[0] }}", "end_date": "{{ $dates[1] }}", "category_id": {{ $category->id ?? 0 }}}'>
+            <table id="list_expense_table" class="dataTable table table-striped table-hover" data-url="{{ url('account/expenses/data') }}" data-params='{"start_date": "{{ $dates[0] }}", "end_date": "{{ $dates[1] }}", "category_id": {{ isset($category->id) ? $category->id : 0 }}}'>
                 <thead>
                 <tr>
                     <th data-name="category">Category</th>

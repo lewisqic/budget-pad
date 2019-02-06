@@ -136,8 +136,8 @@ class Charting {
                 type: 'horizontalBar',
                 data: {
                     labels: [
-                        'Expenses',
-                        'Income',
+                        '$' + expenses + ' Expenses',
+                        '$' + incomes + ' Income',
                     ],
                     datasets: [{
                         label: '',
