@@ -17,16 +17,19 @@
 
 <div class="header">
 
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                <a href="{{ url('') }}" class="navbar-brand">BudgetPad Logo Here</a>
+                <a href="{{ url('') }}" class="navbar-brand">BudgetPad</a>
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item mr-3">
-                        <a href="{{ url('signup') }}" class="nav-link">Pricing/Signup</a>
+                    <li class="nav-item mr-5">
+                        <a href="{{ url('blog') }}" class="nav-link">Blog</a>
+                    </li>
+                    <li class="nav-item mr-5">
+                        <a href="{{ url('signup') }}" class="nav-link">Pricing</a>
                     </li>
                     @if ( $user = \Auth::check() && !empty($user) )
                         <li class="nav-item dropdown ml-3">
@@ -56,7 +59,10 @@
     <div class="container">{!! \Msg::show() !!}</div>
 
     <div class="home-wrapper">
-        @yield('content')
+        <div class="top-bg"></div>
+        <div class="content-wrapper">
+            @yield('content')
+        </div>
     </div>
 
 @else
@@ -83,7 +89,7 @@
 
 @endif
 
-<div class="footer mt-7">
+<div class="footer">
 
     <div class="container">
         <div class="row">

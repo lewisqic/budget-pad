@@ -357,6 +357,122 @@ input.form-control:read-only {
     }
 }
 
+// frontend styles
+.frontend {
+    .header {
+        .navbar {
+            background-color: #1e9bd7 !important;
+            color: #fff;
+            font-size: 22px;
+            .navbar-brand {
+                font-style: italic;
+                font-weight: bold;
+                font-family: "Trebuchet MS", Helvetica, sans-serif;
+                font-size: 28px;
+                padding: 0;
+            }
+            .navbar-nav {
+                .nav-link {
+                    color: #fff;
+                }
+            }
+        }
+    }
+    .home-wrapper {
+        .top-bg {
+            background-image: linear-gradient(#1e9bd7, #015e9c);
+            position: absolute;
+            width: 100%;
+            height: 500px;
+            z-index: 9;
+            border-radius: 80%/0 0 90px 90px;
+        }
+        .content-wrapper {
+            position: relative;
+            z-index: 99;
+            min-height: 500px;
+        }
+        .home-title {
+            padding-top: 40px;
+            color: #fff;
+            h1 {
+                font-size: 40px;
+            }
+            p {
+                font-size: 24px;
+                margin: 30px 0;
+            }
+            .btn-warning {
+                background-color: #ffc95a;
+                border-color: #FCBC3C;
+                color: #fff;
+                font-size: 28px;
+                &:hover {
+                    background-color: #FCBC3C;
+                }
+            }
+        }
+        .screenshot-wrapper {
+            img {
+                width: 80%;
+            }
+        }
+        .steps-wrapper {
+            h2 {
+                color: #0485eb;
+                font-size: 40px;
+                margin: 50px 0 0;
+            }
+            img {
+                margin-top: 60px;
+                width: 400px;
+            }
+            .number {
+                color: #0485eb;
+                font-size: 70px;
+            }
+            h3 {
+                color: #333;
+                font-size: 30px;
+            }
+            .pricing-wrapper {
+                background: #0484ea;
+                padding: 20px;
+                width: 400px;
+                color: #fff;
+                position: relative;
+                margin: 40px auto 0;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 5px;
+                .title {
+                    font-size: 38px;
+                }
+                .price {
+                    font-size: 50px;
+                }
+                em {
+                    font-size: 14px;
+                    color: lighten(#0484ea, 20);
+                    margin-bottom: 20px;
+                    display: block;
+                }
+                .feature {
+                    font-size: 22px;
+                }
+            }
+        }
+    }
+    .footer {
+        background: #f5f6f7;
+        border-top: 1px solid #E4E7E9;
+        padding: 10px 0;
+        margin-top: 80px;
+        font-size: 14px;
+        color: #aaa;
+    }
+}
+
 /*************************************************
 VENDOR OVERRIDES
 *************************************************/

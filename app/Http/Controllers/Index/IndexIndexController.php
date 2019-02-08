@@ -21,7 +21,11 @@ class IndexIndexController extends Controller
      */
     public function showHome()
     {
-        return view('content.index.index.home');
+        $data = [
+            'amount' => \Config::get('settings.subscription_amount'),
+            'trial' => \Config::get('settings.trial_days'),
+        ];
+        return view('content.index.index.home', $data);
     }
 
     /**
