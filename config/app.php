@@ -151,6 +151,7 @@ return [
          * Package Service Providers...
          */
         Conner\Kint\KintServiceProvider::class,
+        Corcel\Laravel\CorcelServiceProvider::class,
 
         /*
          * Application Service Providers...

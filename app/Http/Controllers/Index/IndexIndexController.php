@@ -9,6 +9,7 @@ use Facades\App\Services\CompanyService;
 use Facades\App\Services\CompanySubscriptionService;
 use Facades\App\Services\UserService;
 use App\Http\Controllers\Controller;
+use Corcel\Model\Post;
 //use App\Mail\SignUpConfirmation;
 
 class IndexIndexController extends Controller
@@ -26,6 +27,34 @@ class IndexIndexController extends Controller
             'trial' => \Config::get('settings.trial_days'),
         ];
         return view('content.index.index.home', $data);
+    }
+
+    /**
+     * Show the blog list
+     *
+     * @return view
+     */
+    public function showBlogList()
+    {
+        $posts = Post::published()->type('post')->newest()->paginate(10);
+        $data = [
+            'posts' => $posts
+        ];
+        return view('content.index.index.blog', $data);
+    }
+
+    /**
+     * Show a blog page
+     *
+     * @return view
+     */
+    public function showBlogPost($id)
+    {
+        $post = Post::find($id);
+        $data = [
+            'post' => $post
+        ];
+        return view('content.index.index.blog', $data);
     }
 
     /**

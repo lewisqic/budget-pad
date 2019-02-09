@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>BudgetPad | Budget Tracking Software</title>
+    <title>@yield('title', 'BudgetPad | Budget Tracking Software')</title>
 
     <link rel="stylesheet" href="{{ url('css/core.css') }}">
 

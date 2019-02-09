@@ -1,5 +1,7 @@
 @extends('layouts.index')
 
+@section('title', 'BudgetPad | Pricing & Sign Up'))
+
 @section('content')
 
     <h1 class="my-7 text-center">Let's get you signed up!</h1>

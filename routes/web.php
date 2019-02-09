@@ -5,6 +5,8 @@
  */
 Route::group(['middleware' => ['guest'], 'namespace' => 'Index'], function () {
     Route::get('/', ['uses' => 'IndexIndexController@showHome']);
+    Route::get('blog', ['uses' => 'IndexIndexController@showBlogList']);
+    Route::get('blog/p/{id}', ['uses' => 'IndexIndexController@showBlogPost']);
     Route::get('privacy-policy', ['uses' => 'IndexIndexController@showPrivacyPolicy']);
     Route::get('terms-service', ['uses' => 'IndexIndexController@showTermsService']);
     Route::get('refund-policy', ['uses' => 'IndexIndexController@showRefundPolicy']);
