@@ -1,6 +1,6 @@
 @extends('layouts.index')
 
-@section('title', 'BudgetPad | Pricing & Sign Up'))
+@section('title', 'BudgetPad | Pricing & Sign Up')
 
 @section('content')
 
