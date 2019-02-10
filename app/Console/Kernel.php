@@ -26,7 +26,6 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('subscriptions:process')
             ->everyMinute()
-            ->between('2:00', '3:00')
             ->timezone('America/Denver')
             ->withoutOverlapping();
     }
