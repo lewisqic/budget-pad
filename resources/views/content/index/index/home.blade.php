@@ -83,7 +83,7 @@
                     <div class="pricing-wrapper">
                         <div class="title">All-Access</div>
                         <div class="price">{{ Format::currency($amount) }}</div>
-                        <em>Billed monthly. You won't be charged until your 14-day Free Trials ends on {{ date('F jS', strtotime('+14 days')) }}</em>
+                        <em>Billed monthly. You won't be charged until your 14-day Free Trial ends on {{ date('F jS', strtotime('+14 days')) }}</em>
                         <div class="feature">Unlimited Categories</div>
                         <div class="feature">Track Incomes & Expenses</div>
                         <div class="feature">Track Cash Flows with Tags</div>
