@@ -62,18 +62,38 @@
             <h3>Break bad spending habits and become<br>aware of the cost of your lifestyle</h3>
 
 
-            <h2>Pricing</h2>
+            <h2>One low price, forever</h2>
 
-            <div class="pricing-wrapper">
-                <div class="title">All-Access</div>
-                <div class="price">{{ Format::currency($amount) }}</div>
-                <em>billed monthly</em>
-                <div class="feature">Unlimited Categories</div>
-                <div class="feature">Track Incomes & Expenses</div>
-                <div class="feature">Trach Cash Flows with Tags</div>
-                <div class="feature">Advanced Reporting</div>
-                <div class="feature">Safe & Secure</div>
+            <div class="row">
+                <div class="col-md-5 offset-md-1 text-left font-20">
+
+                    <p class="mt-7">
+                        We're interested in providing an easy to use, simple budgeting platform with lots of flexibility, not upselling you with complicated options.
+                    </p>
+                    <p>
+                        BudgetPad is offered for one simple price and everyone gets the same unlimited access.
+                    </p>
+                    <p>
+                        We will never increase the price of your subscription for the life of your membership, as long as you don't cancel, you will continue to pay the exact price you signed up for.
+                    </p>
+
+                </div>
+                <div class="col-md-5">
+
+                    <div class="pricing-wrapper">
+                        <div class="title">All-Access</div>
+                        <div class="price">{{ Format::currency($amount) }}</div>
+                        <em>Billed monthly. You won't be charged until your 14-day Free Trials ends on {{ date('F jS', strtotime('+14 days')) }}</em>
+                        <div class="feature">Unlimited Categories</div>
+                        <div class="feature">Track Incomes & Expenses</div>
+                        <div class="feature">Track Cash Flows with Tags</div>
+                        <div class="feature">Advanced Reporting</div>
+                        <div class="feature">Safe & Secure</div>
+                    </div>
+
+                </div>
             </div>
+
 
         </div>
 
