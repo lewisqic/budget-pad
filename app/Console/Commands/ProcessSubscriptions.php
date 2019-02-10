@@ -29,7 +29,7 @@ class ProcessSubscriptions extends Command
      */
     public function handle()
     {
-        mail('devinlewis@gmail.com', 'Cron Test', '');
+        \Log::debug('cron has run!');
         CompanySubscriptionService::processPendingCancelations();
         CompanySubscriptionService::processSubscriptionPayments();
     }
