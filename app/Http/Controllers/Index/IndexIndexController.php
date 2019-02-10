@@ -22,6 +22,7 @@ class IndexIndexController extends Controller
      */
     public function showHome()
     {
+        \Log::debug('home page loaded');
         $data = [
             'amount' => \Config::get('settings.subscription_amount'),
             'trial' => \Config::get('settings.trial_days'),
