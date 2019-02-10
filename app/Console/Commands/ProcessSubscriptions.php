@@ -29,7 +29,6 @@ class ProcessSubscriptions extends Command
      */
     public function handle()
     {
-        \Log::debug('cron has run!');
         CompanySubscriptionService::processPendingCancelations();
         CompanySubscriptionService::processSubscriptionPayments();
     }
