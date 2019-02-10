@@ -24358,6 +24358,7 @@ ADMINLY STYLES
 }
 
 .auth .bg-wrapper .auth-content .version-wrapper .square {
+  color: #fff;
   background: #299fd6;
   display: inline-block;
   width: 120px;

@@ -19,7 +19,7 @@
             <div class="auth-content">
 
                 <div class="version-wrapper">
-                    <span class="square">BP</span>
+                    <a href="{{ url('') }}"><span class="square">BP</span></a>
                     <span class="version">v1.0.0</span>
                 </div>
 

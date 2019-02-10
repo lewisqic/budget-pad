@@ -47,13 +47,13 @@
 
             <div class="number">3</div>
 
-            <h3>Establish a budget, cut out frivolous spend<br>and put every dollar to work for you</h3>
+            <h3>Establish a budget, cut spending and<br>put every dollar to work for you</h3>
 
             <img src="{{ url('images/step-4.jpg') }}">
 
             <div class="number">4</div>
 
-            <h3>Tag and track particular deposits and incomes<br>to better understand your particular cashflows</h3>
+            <h3>Tag and track deposits and incomes to<br>better understand your cash flows</h3>
 
             <img src="{{ url('images/step-5.jpg') }}">
 
