@@ -1,4 +1,5 @@
 <?php
+header('Location: /wp/wp-admin');
 /**
  * The main template file
  *
