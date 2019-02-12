@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\Company;
+use App\Models\CompanySubscription;
 use App\Models\Role;
 use Facades\App\Services\UserService;
 use Facades\App\Services\CompanyService;
@@ -166,7 +167,14 @@ class AdminMemberController extends Controller
      */
     public function destroy($id)
     {
-        $user = UserService::delete($id);
+        $user = User::find($id);
+        $company = Company::find($user->company_id);
+        if ( !empty($company->id) ) {
+            $subscription = CompanySubscription::where('company_id', $company->id)->first();
+            $subscription->delete();
+            $company->delete();
+        }
+        User::where('company_id', $user->company_id)->delete();
         \Msg::success($user->name . ' has been <strong>deleted</strong> ' . \Html::undoLink('admin/members/' . $user->id));
         return redir('admin/members');
     }
@@ -178,7 +186,12 @@ class AdminMemberController extends Controller
      */
     public function restore($id)
     {
-        $user = UserService::restore($id);
+        $user = User::withTrashed()->find($id);
+        $company = Company::withTrashed()->find($user->company_id);
+        $subscription = CompanySubscription::withTrashed()->where('company_id', $company->id)->first();
+        $subscription->restore();
+        $company->restore();
+        $user->restore();
         \Msg::success($user->name . ' has been <strong>restored</strong>');
         return redir('admin/members');
     }

@@ -54,7 +54,7 @@ class AdminIndexController extends Controller
             }
         }
         $payments = CompanyPayment::where('status', 'Complete')->whereBetween('created_at', [date('Y-01-01 00:00:00'), date('Y-m-d 23:59:59')])->get();
-        $monthly = round(array_sum($active_revenue) / count($active_revenue));
+        $monthly = count($active_revenue) > 0 ? round(array_sum($active_revenue) / count($active_revenue)) : 0;
         $revenue = [
             'monthly' => $monthly,
             'yearly' => $monthly * 12,
