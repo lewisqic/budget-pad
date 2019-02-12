@@ -189,8 +189,12 @@ class AdminMemberController extends Controller
         $user = User::withTrashed()->find($id);
         $company = Company::withTrashed()->find($user->company_id);
         $subscription = CompanySubscription::withTrashed()->where('company_id', $company->id)->first();
-        $subscription->restore();
-        $company->restore();
+        if ( $subscription ) {
+            $subscription->restore();
+        }
+        if ( $company ) {
+            $company->restore();
+        }
         $user->restore();
         \Msg::success($user->name . ' has been <strong>restored</strong>');
         return redir('admin/members');
