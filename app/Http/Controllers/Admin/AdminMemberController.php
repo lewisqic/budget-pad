@@ -171,8 +171,12 @@ class AdminMemberController extends Controller
         $company = Company::find($user->company_id);
         if ( !empty($company->id) ) {
             $subscription = CompanySubscription::where('company_id', $company->id)->first();
-            $subscription->delete();
-            $company->delete();
+            if ( $subscription ) {
+                $subscription->delete();
+            }
+            if ( $company ) {
+                $company->delete();
+            }
         }
         User::where('company_id', $user->company_id)->delete();
         \Msg::success($user->name . ' has been <strong>deleted</strong> ' . \Html::undoLink('admin/members/' . $user->id));
