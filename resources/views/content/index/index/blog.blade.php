@@ -33,7 +33,7 @@
                 @if ( !empty($post->excerpt) )
                     {!! $post->excerpt !!}
                 @else
-                    {!! mb_strimwidth(preg_replace('/(<!-- wp.*-->|<!-- /wp.*-->)/', '', $post->content), 0, 500, "...") !!}
+                    {!! mb_strimwidth(str_replace('<!-- wp:paragraph -->', '', str_replace('<!-- /wp:paragraph -->', '', $post->content)), 0, 500, "...") !!}
                 @endif
                 <div class="mt-4">
                     <em class="text-muted font-14">{{ $post->created_at->format('F jS, Y') }}</em>
